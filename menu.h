@@ -15,6 +15,9 @@
 #include "colors.h"
 #include "constants.h"
 #include "materials.h"
+#include "building.h"
+#include "buildingInfo.h"
+#include "map.h"
 
 using namespace std;
 
@@ -47,7 +50,7 @@ void displayMenu();
 
 //bool validateOption(int selectedOption);
 
-void processOption(opcion_menu_t& selectedOption, List<Materials>* materialsChain);
+void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap);
 
 
 

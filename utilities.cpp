@@ -8,27 +8,67 @@
 #include "cellBuildable.h"
 #include "cellPassable.h"
 #include "cellIntransitable.h"
+#include "buildingInfo.h"
+#include "cell.h"
 
 
-void loadMaterials(List <Materials>* materialsChain) {
+void loadBuildingsData(List <BuildingInfo> & buildingsInfoChain){
     fstream file;
-    string str;
-    Materials Material;
-    string parsedLine[materialsParseValue];
+    string aux;
+    string buildingName;
+    int stoneRequired;
+    int woodRequired;
+    int metalRequired;
+    int buildingsAllowed;   
+
+    file.open("edificios.txt", ios::in); 
+
+    if(file.is_open()){
+
+        while(file >> buildingName){
+            
+            file >> aux;
+            if (isANumber(aux) == true) {
+                stoneRequired = stoi(aux);
+            } else {
+                buildingName = buildingName + " " + aux;
+                file >> stoneRequired;
+            }
+
+            file >> woodRequired;
+            file >> metalRequired;
+            file >> buildingsAllowed;
+
+            BuildingInfo building(buildingName, stoneRequired, woodRequired, metalRequired,
+                                  buildingsAllowed);
+
+            Node<BuildingInfo> buildingNode(building);
+            buildingsInfoChain.addNodeEnd(buildingNode);
+        }
+
+ 		file.close();
+    }
+	else
+		cerr << ERR_CANT_OPEN_FILE << endl;     
+}
+
+
+
+void loadMaterials(List <Materials> & materialsChain) {
+    fstream file;
+    string materialName;
+    int amount;
 
     file.open("materiales.txt", ios::in);
 
     if (file.is_open()) {
-        while (getline(file, str)) {
-            loadParsedLine(parsedLine, str, materialsParseValue);
-            Material.setMaterial(parsedLine[0]);
-            Material.setAmount(stoi(parsedLine[1]));
 
-            loadIdentifier(&Material); 
+        while(file >> materialName){
+            file >> amount;
 
-            Node<Materials> materialNode(Material);
-            (*materialsChain).addNodeEnd(materialNode);
-                
+            Materials material(materialName, amount);
+            Node<Materials> materialNode(material);
+            materialsChain.addNodeEnd(materialNode);
         }
         file.close();
     }
@@ -36,37 +76,11 @@ void loadMaterials(List <Materials>* materialsChain) {
         cerr << ERR_CANT_OPEN_FILE << endl;
 }
 
-void loadParsedLine(string parsedLine[], string str, const int parseValue) {
-    string aux;
-    int i = 0;
-
-    stringstream ssin(str);
-    while (ssin.good() && i < parseValue) {
-        ssin >> parsedLine[i];
-        i++;
-    }
-}
-
-
-void loadIdentifier(Materials * Material){
-    if(Material->getMaterial() == WORD_STONE){
-        Material->setIdentifier(STONE_IDENTIFIER);
-    }
-    else if(Material->getMaterial() == WORD_WOOD){
-        Material->setIdentifier(WOOD_IDENTIFIER);
-    }
-    else if(Material->getMaterial() == WORD_METAL){
-        Material->setIdentifier(METAL_IDENTIFIER);
-    }
-    else{
-        Material->setIdentifier(NO_IDENTIFIER);
-    }
-}
-
 
 void loadMap(Map &andyMap){
     fstream file;
     string str;
+    string coordinates;
     int rows;
     int columns;
 
@@ -85,12 +99,43 @@ void loadMap(Map &andyMap){
         }
         file.close();
     }
+    else{
+        cerr << ERR_CANT_OPEN_FILE << endl;
+    }
+/********************/
+    file.open("ubicaciones.txt", ios::in);
+
+    if (file.is_open()) {
+
+        while(file >> str){
+            file >> coordinates;
+            if (coordinates[0] == '(') {
+                rows = coordinates[1] - '0';
+                columns = coordinates[3] - '0';
+            } else {
+                str = str + " " + coordinates;
+                file >> coordinates;
+                rows = coordinates[1] - '0';
+                columns = coordinates[3] - '0';
+            }   
+
+            if(str == "escuela")
+                andyMap.buildBuilding(rows, columns, SCHOOL_IDENTIFIER);
+            else if (str == "obelisco")
+                andyMap.buildBuilding(rows, columns, OBELISK_IDENTIFIER);
+            else if (str == "fabrica")
+                andyMap.buildBuilding(rows, columns, FACTORY_IDENTIFIER);
+
+            //agarrar el andymap.buildBuilding(rows, columns, str)
+        }
+
+
+        file.close();
+    }
     else
         cerr << ERR_CANT_OPEN_FILE << endl;
 
     andyMap.printMap();
-    andyMap.getElement(3,0)->showCell();
-    andyMap.getElement(0,2)->showCell();
-    andyMap.getElement(0,0)->showCell();
+
 }
 

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void handleMenu(/*List <Building> * buildings_chain, List <Materials>* materialsChain, */opcion_menu_t& option) {
+void handleMenu(opcion_menu_t& option) {
 
     int selectedOption = 0;
     string aux;
@@ -27,7 +27,7 @@ void handleMenu(/*List <Building> * buildings_chain, List <Materials>* materials
     
 }
 
-void processOption(opcion_menu_t& selectedOption, List<Materials> * materialsChain){
+void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap){
 
     switch(selectedOption){
         case BUILD_BUILDING_BY_NAME:
@@ -55,7 +55,7 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> * materialsCha
             break;
 
         case SHOW_INVENTARY:
-            listConstructionMaterials(materialsChain);
+            listConstructionMaterials(&materialsChain);
             break;
             
         case COLECT_RESOURCES:
@@ -138,6 +138,7 @@ void printHeaderListOfMaterials(){
     int width = 15;
     cout << left << TAB << setw(width)  << "Material" << setw(1) << "|" << setw(width) << "Cantidad" << endl;
 }
+
 
 void printListOfMaterials(Node<Materials> * aux){
     int width = 15;

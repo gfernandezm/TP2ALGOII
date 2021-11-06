@@ -2,6 +2,7 @@
 #define _CELL_H_INCLUDED_
 
 using namespace std;
+#include "building.h"
 
 class Cell{
 protected:
@@ -24,6 +25,10 @@ public:
 
 
     virtual void showCell() = 0;
+
+    virtual Building getBuilding();
+    virtual void setBuildingIdentifier(string);
+
 
     //friend ostream & operator<< (ostream &os, const Cell & b);
     //virtual void show();

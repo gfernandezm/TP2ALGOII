@@ -3,36 +3,37 @@
 #include "menu.h"
 #include "list.h"
 #include "node.h"
-#include "materials.h" //Tiene que estar en mayúscula
+#include "materials.h" 
 #include "utilities.h"
 #include "constants.h"
 #include "colors.h"
 #include "map.h"
 #include "cell.h"
-
+#include "buildingInfo.h"
+#include "building.h"
 
 using namespace std;
 
 
 int main(){
-    opcion_menu_t opcion = UNDEFINE;
-    //List<Building *> buildingsChain;
+    opcion_menu_t option = UNDEFINE;
+    List<BuildingInfo> buildingsInfoChain;
     List<Materials> materialsChain;
     Map andyMap;
 
-    //load_buildings_data(&buildingsChain);
-    loadMaterials(&materialsChain);
     system (CLR_SCREEN);
+    loadBuildingsData(buildingsInfoChain);
+    loadMaterials(materialsChain);
     loadMap(andyMap);
 
-    while (opcion != LEAVE) {
-        opcion = UNDEFINE;
-        handleMenu(opcion);
-        processOption(opcion, &materialsChain);
+    //buildingsInfoChain.print();
+
+    while (option != LEAVE) {
+        option = UNDEFINE;
+        handleMenu(option);
+        processOption(option, materialsChain, buildingsInfoChain, andyMap);
     }
 
-
-    //handleMenu(/*&buildingsChain,*/ &materialsChain);
 
     return 0;
 }

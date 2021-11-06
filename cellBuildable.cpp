@@ -7,7 +7,7 @@ using namespace std;
 
 
 CellBuildable::CellBuildable() : Cell(){
-    building = nullptr;
+    ptrBuilding = nullptr;
 }
 
 CellBuildable::~CellBuildable(){
@@ -16,7 +16,7 @@ CellBuildable::~CellBuildable(){
 
 void CellBuildable::showCell(){
 
-    if(building){
+    if(ptrBuilding){
         cout << "soy un casillero construible y hay algo construido" << endl;
     } else{
         cout << "soy un casillero construible y toy vacio uwu" << endl;
@@ -26,6 +26,15 @@ void CellBuildable::showCell(){
 
 
 CellBuildable::CellBuildable(int x, int y, string identif) : Cell(x, y, identif){
-    building = nullptr;
+    ptrBuilding = nullptr;
 }
 
+
+void CellBuildable::setBuildingIdentifier(string identif){
+    (*ptrBuilding).setIdentifier(identif);
+}
+
+
+Building CellBuildable::getBuilding(){
+    return (*ptrBuilding);
+}

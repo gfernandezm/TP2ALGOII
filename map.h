@@ -23,6 +23,7 @@ public:
 
     CellPtr getElement(int x, int y);
     void addElement(int x, int y, string);
+    void buildBuilding(int x, int y, string data);
     void printMap();
 
     //Cell *** getCellMatrix();

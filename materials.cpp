@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "materials.h"
+#include "constants.h"
 
 using namespace std;
 
@@ -12,6 +13,27 @@ Materials::Materials() {
     identifier.clear();
     amount = 0;
 }
+
+Materials::Materials(string materialName, int materialAmount){
+    material = materialName;
+    amount = materialAmount;
+
+    if(materialName == WORD_STONE){
+        identifier = STONE_IDENTIFIER;
+    }
+    else if(materialName == WORD_WOOD){
+        identifier = WOOD_IDENTIFIER;
+    }
+    else if(materialName == WORD_METAL){
+        identifier = METAL_IDENTIFIER;
+    }
+    else{
+        identifier = NO_IDENTIFIER;
+    }
+
+}
+
+
 
 Materials::Materials(const Materials& Material) {
     material = Material.material;

@@ -1,8 +1,6 @@
 #ifndef _MATERIALS_H_INCLUDED_
 #define _MATERIALS_H_INCLUDED_
 
-#include <string>
-
 using namespace std;
 
 class Materials {
@@ -13,6 +11,7 @@ class Materials {
 
 public:
     Materials();
+    Materials(string, int);
     Materials(const Materials&);
     ~Materials();
 
