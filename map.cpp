@@ -6,10 +6,9 @@
 #include "cellPassable.h"
 #include "cellIntransitable.h"
 #include "constants.h"
-
+#include "school.h"
 
 using namespace std;
-
 
 Map::Map(){
     rows = 0;
@@ -18,7 +17,6 @@ Map::Map(){
 }
 
 Map::~Map(){
-
     if(cellPtrMatrix == nullptr)
         return;
 
@@ -28,7 +26,6 @@ Map::~Map(){
         }
         delete [] cellPtrMatrix[i];
     }    
-
     delete [] cellPtrMatrix;
 }
 
@@ -72,49 +69,19 @@ void Map::addElement(int x, int y, string data){
 }
 
 void Map::buildBuilding(int x, int y, string data){
-
     if(x >= rows || y >= columns || x < 0 || y < 0)
         return;
 
-    (cellPtrMatrix[x][y])->setBuildingIdentifier(data);
- 
-
-
-/*
-    if(data == FIELD_IDENTIFIER){
-        cellPtrMatrix[x][y] = new CellBuildable(x, y, data);
-    }
-    else if(data == LAKE_IDENTIFIER){
-        cellPtrMatrix[x][y] = new CellIntransitable(x, y, data);
-    }
-    else if(data == ROAD_IDENTIFIER){
-        cellPtrMatrix[x][y] = new CellPassable(x, y, data);
-    }
-*/
+    ((CellBuildable*)cellPtrMatrix[x][y])->build(data);
 }
-
-
 
 
 void Map::printMap(){
-
-    cout << cellPtrMatrix[0][2]->getBuilding().getIdentifier() << endl;
-    cout << cellPtrMatrix[0][3]->getBuilding().getIdentifier() << endl;
-    cout << cellPtrMatrix[0][4]->getBuilding().getIdentifier() << endl;
-
-/*
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < columns; j++){
-            cout << cellPtrMatrix[i][j]->getCellIdentifier() << " ";
+            //cout << cellPtrMatrix[i][j]->getCellIdentifier() << " ";
+            cellPtrMatrix[i][j]->showCell();
         }
         cout << endl;
     }
-*/
 }
-
-
-
-/*
-Cell *** Map::getCellMatrix(){
-    return &cellPtrMatrix;
-}*/

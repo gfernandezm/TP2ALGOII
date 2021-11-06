@@ -9,8 +9,6 @@ protected:
     string identifier; 
     string generatedMaterial; 
     int generatedMaterialAmount; 
-    
-    
 
 public:
     Building();

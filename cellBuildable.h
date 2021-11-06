@@ -9,17 +9,20 @@ using namespace std;
 class CellBuildable: public Cell{
 private:
     Building * ptrBuilding;
+    bool isBuilt;
 
 public:
 
     CellBuildable();
+    CellBuildable(string building);
     CellBuildable(int, int, string);
     ~CellBuildable();
 
     void showCell();
-    void setBuildingIdentifier(string);
 
-    Building getBuilding();
+    //void setBuildingIdentifier(string);
+    void build(string building);
+    
 
 
 };

@@ -22,7 +22,8 @@ void CellPassable::showCell(){
         cout << "soy un casillero transitable y tengo madera" << endl;
     } else if(material.getIdentifier() == METAL_IDENTIFIER){
         cout << "soy un casillero transitable y tengo metal" << endl;
-    } 
+    } else 
+        cout << "soy un camino y estoy vacío jeje" << endl;
 
 }
 

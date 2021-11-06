@@ -9,7 +9,7 @@ using namespace std;
 Cell::Cell(){
     coordinateX = 0; 
     coordinateY = 0; 
-    cellIdentifier.clear() ;
+    cellIdentifier.clear();
 }
 
 Cell::~Cell(){

@@ -2,12 +2,16 @@
 #define _CONSTANTS_H_INCLUDED_
 
 
-/*PASAR TODO A MAYUSCULA*/
-
-
 static const string WORD_STONE = "piedra";
 static const string WORD_WOOD = "madera";
 static const string WORD_METAL = "metal";
+static const string WORD_SCHOOL = "escuela";
+static const string WORD_FACTORY = "fabrica";
+static const string WORD_MINE = "mina";
+static const string WORD_SAWMILL = "aserradero";
+static const string WORD_POWER_PLANT = "planta electrica";
+static const string WORD_OBELISK = "obelisco";
+
 
 
 static const string STONE_IDENTIFIER = "S";
@@ -24,7 +28,9 @@ static const string ROAD_IDENTIFIER = "C";
 static const string LAKE_IDENTIFIER = "L";
 static const string NO_IDENTIFIER = "Identificador no definido";
 
-
+static const int MATERIAL_PRODUCED_MINE = 15;
+static const int MATERIAL_PRODUCED_SAWMILL = 25;
+static const int MATERIAL_PRODUCED_FACTORY = 40;
 
 
 static const string ERR_CANT_OPEN_FILE = "No se pudo abrir el archivo.";

@@ -33,6 +33,8 @@ void loadBuildingsData(List <BuildingInfo> & buildings_chain);
 
 
 void loadMap(Map &andyMap);
+void createMap(Map & andyMap);
+void loadMapFromFile(Map & andyMap);
 
 
 #endif

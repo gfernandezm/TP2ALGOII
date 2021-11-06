@@ -26,10 +26,6 @@ public:
 
     virtual void showCell() = 0;
 
-    virtual Building getBuilding();
-    virtual void setBuildingIdentifier(string);
-
-
     //friend ostream & operator<< (ostream &os, const Cell & b);
     //virtual void show();
 };

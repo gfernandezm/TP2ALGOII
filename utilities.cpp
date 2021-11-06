@@ -9,7 +9,6 @@
 #include "cellPassable.h"
 #include "cellIntransitable.h"
 #include "buildingInfo.h"
-#include "cell.h"
 
 
 void loadBuildingsData(List <BuildingInfo> & buildingsInfoChain){
@@ -78,9 +77,16 @@ void loadMaterials(List <Materials> & materialsChain) {
 
 
 void loadMap(Map &andyMap){
+    createMap(andyMap);
+    loadMapFromFile(andyMap);
+
+    andyMap.printMap();
+}
+
+
+void createMap(Map & andyMap){
     fstream file;
     string str;
-    string coordinates;
     int rows;
     int columns;
 
@@ -102,7 +108,15 @@ void loadMap(Map &andyMap){
     else{
         cerr << ERR_CANT_OPEN_FILE << endl;
     }
-/********************/
+}
+
+void loadMapFromFile(Map & andyMap){
+    fstream file;
+    string str;
+    string coordinates;
+    int rows;
+    int columns;
+
     file.open("ubicaciones.txt", ios::in);
 
     if (file.is_open()) {
@@ -118,24 +132,12 @@ void loadMap(Map &andyMap){
                 rows = coordinates[1] - '0';
                 columns = coordinates[3] - '0';
             }   
-
-            if(str == "escuela")
-                andyMap.buildBuilding(rows, columns, SCHOOL_IDENTIFIER);
-            else if (str == "obelisco")
-                andyMap.buildBuilding(rows, columns, OBELISK_IDENTIFIER);
-            else if (str == "fabrica")
-                andyMap.buildBuilding(rows, columns, FACTORY_IDENTIFIER);
-
-            //agarrar el andymap.buildBuilding(rows, columns, str)
+            
+            andyMap.buildBuilding(rows, columns, str);
         }
-
 
         file.close();
     }
     else
         cerr << ERR_CANT_OPEN_FILE << endl;
-
-    andyMap.printMap();
-
 }
-
