@@ -133,9 +133,12 @@ void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain){
                 columns = coordinates[3] - '0';
             }   
             
-            andyMap.buildBuilding(rows, columns, str);
-
-            loadBuildingsMadeFromFile(str, buildingInfoChain);
+            if(andyMap.buildBuilding(rows, columns, str) == true)
+                loadBuildingsMadeFromFile(str, buildingInfoChain);
+            else{
+                cout << ERR_INCORRECT_FILE << endl;
+                exit(1);
+            }
 
         }
 
@@ -147,7 +150,6 @@ void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain){
 }
 
 void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoChain){
-
     bool flag = false;
     Node<BuildingInfo> * aux = buildingInfoChain.getFirst();
 
@@ -162,5 +164,126 @@ void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoCha
 
     flag = false;
     aux = buildingInfoChain.getFirst();
+
+}
+
+
+void askCoordinates(int & row, int & column){
+    string aux;
+    
+    cout << INSER_COORDINATES << endl;
+    cout << INSERT_ROW << endl;
+    
+    getline(cin, aux);
+    if (isANumber(aux) == true)
+        row = stoi(aux);
+    
+    cout << INSERT_COLUMN << endl;
+    getline(cin, aux);
+    if (isANumber(aux) == true)
+        column = stoi(aux);
+}
+
+bool isANumber(string cadena)
+{
+    for (unsigned int i = 0; i < cadena.length(); i++){
+        if (!isdigit(cadena[i]))
+            return false;
+    }
+
+    return true;
+}
+
+bool searchBuildingByName(List<BuildingInfo> & buildingsInfoChain, Node<BuildingInfo> ** outPtrBuildInfoNode, string building){
+    (*outPtrBuildInfoNode) = buildingsInfoChain.getFirst();
+
+    while((*outPtrBuildInfoNode) != nullptr){
+        if(building == ((*outPtrBuildInfoNode)->getData()).getBuildingName())
+            return true;
+            
+        (*outPtrBuildInfoNode) = (*outPtrBuildInfoNode)->getNext();
+    }
+
+    return false;
+}
+
+bool checkBuildingRequirements(Node<BuildingInfo> * ptrBuildInfoNode, List<Materials> & materialsChain){
+    Node<Materials> * ptrMaterialsNode = materialsChain.getFirst();
+    //esto es porque si ya chequeo los 3 materiales que me interesan, no es necesario seguir recorriendo la lista.
+    bool stoneChecked = false, metalChecked = false, woodChecked = false, status = true;
+    
+    while(ptrMaterialsNode != nullptr && (!stoneChecked || !metalChecked || !woodChecked) && status != false){
+
+        if((ptrMaterialsNode->getData()).getMaterial() == WORD_STONE){
+            if((ptrMaterialsNode->getData()).getAmount() <= (ptrBuildInfoNode->getData()).getStoneRequired()){
+                cout << TXT_DARK_RED_1 << ERR_NOT_ENOUGH_STONE << END_COLOR << endl;
+                status = false;
+            }
+            stoneChecked = true;
+        }
+
+        if((ptrMaterialsNode->getData()).getMaterial() == WORD_METAL){
+            if((ptrMaterialsNode->getData()).getAmount() <= (ptrBuildInfoNode->getData()).getMetalRequired()){
+                cout << TXT_DARK_RED_1 << ERR_NOT_ENOUGH_METAL << END_COLOR << endl;
+                status = false;
+            }
+            metalChecked = true;
+        }
+
+        if((ptrMaterialsNode->getData()).getMaterial() == WORD_WOOD){
+            if((ptrMaterialsNode->getData()).getAmount() <= (ptrBuildInfoNode->getData()).getWoodRequired()){
+                cout << TXT_DARK_RED_1 << ERR_NOT_ENOUGH_WOOD << END_COLOR <<endl;
+                status = false;
+            }
+            woodChecked = true;
+        }
+
+        ptrMaterialsNode = ptrMaterialsNode->getNext();
+    }
+    return status;
+}
+
+void updateMaterialsAmount(Node<BuildingInfo> * ptrBuildInfoNode, List<Materials> & materialsChain){
+    Node<Materials> * ptrMaterialsNode = materialsChain.getFirst();
+    //esto es porque si ya chequeo los 3 materiales que me interesan, no es necesario seguir recorriendo la lista.
+    bool stoneChecked = false, metalChecked = false, woodChecked = false, status = true;
+
+    while(ptrMaterialsNode != nullptr && (!stoneChecked || !metalChecked || !woodChecked) && status != false){
+
+        if((ptrMaterialsNode->getData()).getMaterial() == WORD_STONE){
+            (ptrMaterialsNode->getData()).setAmount( (ptrMaterialsNode->getData()).getAmount() - (ptrBuildInfoNode->getData()).getStoneRequired() );        
+            stoneChecked = true;
+        }
+
+        if((ptrMaterialsNode->getData()).getMaterial() == WORD_METAL){
+            (ptrMaterialsNode->getData()).setAmount( (ptrMaterialsNode->getData()).getAmount() - (ptrBuildInfoNode->getData()).getStoneRequired() );
+            metalChecked = true;
+        }
+
+        if((ptrMaterialsNode->getData()).getMaterial() == WORD_WOOD){
+            (ptrMaterialsNode->getData()).setAmount( (ptrMaterialsNode->getData()).getAmount() - (ptrBuildInfoNode->getData()).getStoneRequired() );
+            woodChecked = true;
+        }
+
+        ptrMaterialsNode = ptrMaterialsNode->getNext();
+    }
+}
+
+
+
+
+
+int ConfirmationToBuild(){
+    string aux;
+    int selectedOption;
+
+    printConfirmationToBuild();
+    getline(cin, aux);
+    if (isANumber(aux) == true)
+        return selectedOption = stoi(aux);
+    else{
+        cerr << ERR_WRONG_INPUT << endl;
+        return -1;
+    }
 
 }

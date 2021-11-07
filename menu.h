@@ -18,6 +18,7 @@
 #include "building.h"
 #include "buildingInfo.h"
 #include "map.h"
+#include "utilities.h"
 
 using namespace std;
 
@@ -77,9 +78,10 @@ void printListOfMaterials(Node<Materials> * aux);
 void showCellByCoordinates(Map & andyMap);
 
 
-bool isANumber(string cadena);
-
 
 void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap);
+
+
+void printConfirmationToBuild();
 
 #endif

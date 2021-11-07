@@ -32,6 +32,7 @@ static const int MATERIAL_PRODUCED_MINE = 15;
 static const int MATERIAL_PRODUCED_SAWMILL = 25;
 static const int MATERIAL_PRODUCED_FACTORY = 40;
 
+static const int CONFIRMATION_BUILD_YES = 1;
 
 static const string ERR_CANT_OPEN_FILE = "No se pudo abrir el archivo.";
 static const string ERR_INCORRECT_FILE = "El archivo esta mal formado.";
@@ -44,6 +45,7 @@ static const string ERR_NOT_ENOUGH_METAL = "No hay suficiente metal para constru
 static const string ERR_NO_REMAINING_BUILDINGS_TO_BUILD = "No quedan edificios disponibles por construir.";
 static const string ERR_NO_REMAINING_BUILDINGS_TO_DEMOLISH = "No quedan edificios disponibles para demoler.";
 static const string ERR_INVALID_COORDINATES = "Las coordenadas no son validas";
+static const string ERR_INVALID_CELL = "No se pudo construir. Se esta intentando construir sobre una celda no construible";
 
 static const string CONFIRMATION_TO_BUILD = "¿Esta seguro que desea construir el edificio?";
 static const string ENTER_BUILDING_TO_BUILD = "Ingrese el nombre del edificio que desea construir: ";
@@ -51,6 +53,8 @@ static const string ENTER_BUILDING_TO_DEMOLISH = "Ingrese el edificio que desea 
 static const string ENTER_OPTION = "Ingrese el numero correspondiente a la accion que desea realizar";
 static const string BUILD_BUILDING_SUCCESS = "Se construyo satisfactoriamente una unidad del edificio: ";
 static const string DEMOLISH_BUILDING_SUCCESS = "Se destruyo satisfactoriamente una unidad del edificio: ";
+static const string INSER_COORDINATES = "Las coordenadas que debe ingresar comienzan en (0,0)";
+
 
 static const string INSERT_ROW = "Ingrese la fila del casillero que desea consultar: ";
 static const string INSERT_COLUMN = "Ingrese la columna del casillero que desea consultar: ";

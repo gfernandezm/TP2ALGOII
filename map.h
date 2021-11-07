@@ -23,7 +23,7 @@ public:
 
     CellPtr getElement(int x, int y);
     void addElement(int x, int y, string);
-    void buildBuilding(int x, int y, string data);
+    bool buildBuilding(int x, int y, string data);
     void printMap();
     void printCellInfo(int row, int column);
     bool validateCoordinates(int row, int column);

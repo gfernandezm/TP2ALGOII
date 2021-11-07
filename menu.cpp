@@ -74,36 +74,45 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
 }
 
 void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap){
-    /*string building;
+    string building;
+    Node<BuildingInfo> * ptrBuildInfoNode = nullptr;
+    int row, column;
 
-    cout >> ENTER_BUILDING_TO_BUILD >> endl;
+    cout << ENTER_BUILDING_TO_BUILD << endl;
     getline(cin, building);
-    */
+    
+    if(searchBuildingByName(buildingsInfoChain, &ptrBuildInfoNode, building) == true){
+        if(checkBuildingRequirements(ptrBuildInfoNode, materialsChain) == true){
+            askCoordinates(row,column);
+            if(andyMap.validateCoordinates(row, column) == true){
+                if((ptrBuildInfoNode->getData()).getBuildingsAllowed() - (ptrBuildInfoNode->getData()).getBuildingsMade() > 0){
 
-    // lectura de nombre
-    // procesar nombre (implica leer lista de buildingsInfoChain viendo si el nombre está ok)
-    // analizar los requerimientos de materiales (implica leer los datos de buildingInfochain y materialsChain)
-    // si esta todo ok, buildBuilding q está hecha
-    // sumar 1 a buildingsMade en buildingsInfoChain
-
-
-
+                    if(ConfirmationToBuild() == CONFIRMATION_BUILD_YES){
+                        if(andyMap.buildBuilding(row, column, building) == true){
+                            ptrBuildInfoNode->getData().setBuildingsMade(ptrBuildInfoNode->getData().getBuildingsMade() + 1);
+                            updateMaterialsAmount(ptrBuildInfoNode, materialsChain);
+                            cout << BUILD_BUILDING_SUCCESS << building << endl;
+                        }
+                    }
+                }
+                else
+                    cerr << ERR_NO_REMAINING_BUILDINGS_TO_BUILD << endl;
+            } else
+                cerr << ERR_INVALID_COORDINATES << endl;
+        }
+    } else
+        cerr << ERR_BUILDING_NOT_FOUND << endl;
 }
+
+
 
 
 
 
 void showCellByCoordinates(Map & andyMap){
     int row, column;
-    string aux;
 
-    cout << INSERT_ROW << endl;
-    getline(cin, aux);
-    row = stoi(aux);
-    
-    cout << INSERT_COLUMN << endl;
-    getline(cin, aux);
-    column = stoi(aux);
+    askCoordinates(row, column);
 
     if(andyMap.validateCoordinates(row,column) == false){
         cerr << ERR_INVALID_COORDINATES << endl;
@@ -112,6 +121,9 @@ void showCellByCoordinates(Map & andyMap){
 
     andyMap.printCellInfo(row, column);
 }
+
+
+
 
 
 void listConstructionMaterials(List <Materials> * materialsChain){
@@ -132,15 +144,7 @@ void listConstructionMaterials(List <Materials> * materialsChain){
 }
 
 
-bool isANumber(string cadena)
-{
-    for (unsigned int i = 0; i < cadena.length(); i++){
-        if (!isdigit(cadena[i]))
-            return false;
-    }
 
-    return true;
-}
 
 
 void displayMenu(){
@@ -179,4 +183,11 @@ void printListOfMaterials(Node<Materials> * aux){
     int width = 15;
     cout << left << TAB << setw(width) << (aux->getData()).getMaterial() << setw(1) << "|" 
     << setw(width) << (aux->getData()).getAmount() << endl;
+}
+
+void printConfirmationToBuild(){
+    cout << TXT_ORANGE_166 << CONFIRMATION_TO_BUILD << END_COLOR << endl;
+    cout << TXT_ORANGE_166 << ENTER_OPTION << END_COLOR << endl;
+    cout << TXT_ORANGE_166 << "1. Si" << END_COLOR << endl;
+    cout << TXT_ORANGE_166 << "2. No" << END_COLOR << endl;
 }

@@ -26,8 +26,6 @@ int main(){
     loadMaterials(materialsChain);
     loadMap(andyMap, buildingsInfoChain);
 
-    // buildingsInfoChain.print();
-
     while (option != LEAVE) {
         option = UNDEFINE;
         handleMenu(option);

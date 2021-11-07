@@ -68,13 +68,36 @@ void Map::addElement(int x, int y, string data){
 
 }
 
+bool Map::buildBuilding(int x, int y, string data){
+    bool status;
+    if(x >= rows || y >= columns || x < 0 || y < 0){
+        cout << ERR_INVALID_COORDINATES << endl;
+        status = false;
+    }
+    else{
+        if(cellPtrMatrix[x][y]->getCellIdentifier()== FIELD_IDENTIFIER){
+            ((CellBuildable*)cellPtrMatrix[x][y])->build(data);
+            status = true;
+        }
+        else{
+            cout << ERR_INVALID_CELL << endl;
+            status = false;
+        }
+    }
+    return status;
+}
+
+
+
+
+/*
 void Map::buildBuilding(int x, int y, string data){
     if(x >= rows || y >= columns || x < 0 || y < 0)
         return;
 
     ((CellBuildable*)cellPtrMatrix[x][y])->build(data);
 }
-
+*/
 
 void Map::printMap(){
     for(int i = 0; i < rows; i++){
@@ -92,7 +115,7 @@ void Map::printCellInfo(int row, int column){
 }
 
 bool Map::validateCoordinates(int row, int column){
-    if (this->rows >= row && this->columns >= column)
+    if (this->rows > row && this->columns > column)
         return true;
     else    
         return false;

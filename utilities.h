@@ -34,5 +34,15 @@ void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain);
 void createMap(Map & andyMap);
 void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain);
 
+void askCoordinates(int & row, int & column);
+bool isANumber(string cadena);
+
+bool searchBuildingByName(List<BuildingInfo> & buildingsInfoChain, Node<BuildingInfo> ** ptrBuildInfoNode, string building);
+bool checkBuildingRequirements(Node<BuildingInfo> * ptrBuildInfoNode,  List<Materials> & materialsChain);
+void updateMaterialsAmount(Node<BuildingInfo> * ptrBuildInfoNode, List<Materials> & materialsChain);
+
+int ConfirmationToBuild();
+
+
 
 #endif
