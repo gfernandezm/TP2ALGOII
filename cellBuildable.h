@@ -19,6 +19,7 @@ public:
     ~CellBuildable();
 
     void showCell();
+    void showCellInfo();
 
     //void setBuildingIdentifier(string);
     void build(string building);

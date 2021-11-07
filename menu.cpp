@@ -9,29 +9,25 @@
 using namespace std;
 
 void handleMenu(opcion_menu_t& option) {
-
     int selectedOption = 0;
     string aux;
 
     displayMenu();
-
     getline(cin, aux);
 
-    if (isANumber(aux) == true) {
+    if (isANumber(aux) == true)
         selectedOption = stoi(aux);
-    }
  
-    if (selectedOption >= 1 && selectedOption <= 10) {
+    if (selectedOption >= 1 && selectedOption <= 10)
         option = (opcion_menu_t)selectedOption;
-    }
-    
+  
 }
 
 void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap){
 
     switch(selectedOption){
         case BUILD_BUILDING_BY_NAME:
-            cout << "opcion 1" << endl;
+            buildBuildingByName(materialsChain, buildingsInfoChain, andyMap);
             break;
 
         case LIST_CONSTRUCTUCTED_BUILDINGS:
@@ -47,11 +43,11 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
             break;
 
         case SHOW_MAP:
-            cout << "opcion 5" << endl;
+            andyMap.printMap();
             break;
 
         case ASK_COORDINATES:
-            cout << "opcion 6" << endl;
+            showCellByCoordinates(andyMap);
             break;
 
         case SHOW_INVENTARY:
@@ -77,6 +73,46 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
     }
 }
 
+void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap){
+    /*string building;
+
+    cout >> ENTER_BUILDING_TO_BUILD >> endl;
+    getline(cin, building);
+    */
+
+    // lectura de nombre
+    // procesar nombre (implica leer lista de buildingsInfoChain viendo si el nombre está ok)
+    // analizar los requerimientos de materiales (implica leer los datos de buildingInfochain y materialsChain)
+    // si esta todo ok, buildBuilding q está hecha
+    // sumar 1 a buildingsMade en buildingsInfoChain
+
+
+
+}
+
+
+
+
+void showCellByCoordinates(Map & andyMap){
+    int row, column;
+    string aux;
+
+    cout << INSERT_ROW << endl;
+    getline(cin, aux);
+    row = stoi(aux);
+    
+    cout << INSERT_COLUMN << endl;
+    getline(cin, aux);
+    column = stoi(aux);
+
+    if(andyMap.validateCoordinates(row,column) == false){
+        cerr << ERR_INVALID_COORDINATES << endl;
+        return;
+    }
+
+    andyMap.printCellInfo(row, column);
+}
+
 
 void listConstructionMaterials(List <Materials> * materialsChain){
     Node<Materials> * aux = (*materialsChain).getFirst();
@@ -98,8 +134,7 @@ void listConstructionMaterials(List <Materials> * materialsChain){
 
 bool isANumber(string cadena)
 {
-    for (unsigned int i = 0; i < cadena.length(); i++)
-    {
+    for (unsigned int i = 0; i < cadena.length(); i++){
         if (!isdigit(cadena[i]))
             return false;
     }

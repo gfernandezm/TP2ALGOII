@@ -14,8 +14,6 @@
 
 using namespace std;
 
-static const int materialsParseValue = 2;
-
 // PRE: La lista recibida debe estar creada, aunque est� vac�a (de hecho lo est�)
 // y el archivo "materiales.txt" debe estar bien formado.
 // POST: Si se puede abrir el archivo, se leen los elementos del archivo, se los procesa y se los carga en los atributos correspondientes
@@ -31,10 +29,10 @@ void loadMaterials(List <Materials> & materialsChain);
 // Caso contrario, se indica que no se pudo abrir el archivo y finaliza la función.
 void loadBuildingsData(List <BuildingInfo> & buildings_chain);
 
-
-void loadMap(Map &andyMap);
+void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoChain);
+void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain);
 void createMap(Map & andyMap);
-void loadMapFromFile(Map & andyMap);
+void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain);
 
 
 #endif

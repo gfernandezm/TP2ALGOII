@@ -17,6 +17,7 @@ public:
     ~CellPassable();
 
     void showCell();
+    void showCellInfo();
 
 
 };

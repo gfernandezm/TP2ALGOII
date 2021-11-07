@@ -25,6 +25,8 @@ public:
     void addElement(int x, int y, string);
     void buildBuilding(int x, int y, string data);
     void printMap();
+    void printCellInfo(int row, int column);
+    bool validateCoordinates(int row, int column);
 
     //Cell *** getCellMatrix();
 

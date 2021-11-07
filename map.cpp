@@ -79,9 +79,21 @@ void Map::buildBuilding(int x, int y, string data){
 void Map::printMap(){
     for(int i = 0; i < rows; i++){
         for(int j = 0; j < columns; j++){
-            //cout << cellPtrMatrix[i][j]->getCellIdentifier() << " ";
             cellPtrMatrix[i][j]->showCell();
         }
         cout << endl;
     }
+}
+
+void Map::printCellInfo(int row, int column){
+    
+    cellPtrMatrix[row][column]->showCellInfo();
+    
+}
+
+bool Map::validateCoordinates(int row, int column){
+    if (this->rows >= row && this->columns >= column)
+        return true;
+    else    
+        return false;
 }

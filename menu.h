@@ -73,6 +73,13 @@ void printHeaderListOfMaterials();
 // POST: Se imprime el material de construcción con su respectiva cantidad.
 void printListOfMaterials(Node<Materials> * aux);
 
+
+void showCellByCoordinates(Map & andyMap);
+
+
 bool isANumber(string cadena);
+
+
+void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap);
 
 #endif

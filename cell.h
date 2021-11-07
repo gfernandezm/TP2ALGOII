@@ -25,6 +25,7 @@ public:
 
 
     virtual void showCell() = 0;
+    virtual void showCellInfo() = 0;
 
     //friend ostream & operator<< (ostream &os, const Cell & b);
     //virtual void show();

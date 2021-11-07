@@ -14,6 +14,7 @@ public:
     ~CellIntransitable();
 
     void showCell();
+    void showCellInfo();
 
 
 };

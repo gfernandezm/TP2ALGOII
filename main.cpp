@@ -24,9 +24,9 @@ int main(){
     system (CLR_SCREEN);
     loadBuildingsData(buildingsInfoChain);
     loadMaterials(materialsChain);
-    loadMap(andyMap);
+    loadMap(andyMap, buildingsInfoChain);
 
-    //buildingsInfoChain.print();
+    // buildingsInfoChain.print();
 
     while (option != LEAVE) {
         option = UNDEFINE;

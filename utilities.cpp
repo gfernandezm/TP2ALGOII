@@ -9,6 +9,8 @@
 #include "cellPassable.h"
 #include "cellIntransitable.h"
 #include "buildingInfo.h"
+#include "list.h"
+#include "node.h"
 
 
 void loadBuildingsData(List <BuildingInfo> & buildingsInfoChain){
@@ -76,11 +78,9 @@ void loadMaterials(List <Materials> & materialsChain) {
 }
 
 
-void loadMap(Map &andyMap){
+void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain){
     createMap(andyMap);
-    loadMapFromFile(andyMap);
-
-    andyMap.printMap();
+    loadMapFromFile(andyMap, buildingInfoChain);
 }
 
 
@@ -110,7 +110,7 @@ void createMap(Map & andyMap){
     }
 }
 
-void loadMapFromFile(Map & andyMap){
+void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain){
     fstream file;
     string str;
     string coordinates;
@@ -120,7 +120,7 @@ void loadMapFromFile(Map & andyMap){
     file.open("ubicaciones.txt", ios::in);
 
     if (file.is_open()) {
-
+ 
         while(file >> str){
             file >> coordinates;
             if (coordinates[0] == '(') {
@@ -134,10 +134,33 @@ void loadMapFromFile(Map & andyMap){
             }   
             
             andyMap.buildBuilding(rows, columns, str);
+
+            loadBuildingsMadeFromFile(str, buildingInfoChain);
+
         }
 
         file.close();
     }
     else
         cerr << ERR_CANT_OPEN_FILE << endl;
+   
+}
+
+void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoChain){
+
+    bool flag = false;
+    Node<BuildingInfo> * aux = buildingInfoChain.getFirst();
+
+    while(aux != nullptr && flag == false){
+
+        if(aux->getData().getBuildingName() == str){
+            aux->getData().setBuildingsMade(aux->getData().getBuildingsMade()+1);
+            flag = true;
+        }
+        aux = aux->getNext();
+    }
+
+    flag = false;
+    aux = buildingInfoChain.getFirst();
+
 }
