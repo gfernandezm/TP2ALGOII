@@ -2,6 +2,9 @@
 #define _BUILDING_INFO_H_INCLUDED_
 
 using namespace std;
+#include "constants.h"
+#include "arrayOfCoordinates.h"
+
 
 class BuildingInfo{
 private:
@@ -11,7 +14,7 @@ private:
     int metalRequired;
     int buildingsAllowed;
     int buildingsMade; 
-
+    ArrayOfCoordinates arrayOfCoordinates; 
 
 public:
     BuildingInfo();
@@ -29,6 +32,9 @@ public:
     int getBuildingsAllowed()const;
     int getBuildingsMade()const;
 
+    //ArrayOfCoordinates & getArrayOfCoordinates();
+    void addCoordinates(int, int);
+    void printCoordinates();
 
     void setBuildingName(string);
     void setStoneRequired(int);
@@ -36,7 +42,6 @@ public:
     void setMetalRequired(int);
     void setBuildingsAllowed(int); 
     void setBuildingsMade(int);
-
 
 };
 

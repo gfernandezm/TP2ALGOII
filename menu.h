@@ -19,6 +19,7 @@
 #include "buildingInfo.h"
 #include "map.h"
 #include "utilities.h"
+#include "arrayOfCoordinates.h"
 
 using namespace std;
 
@@ -76,12 +77,24 @@ void printListOfMaterials(Node<Materials> * aux);
 
 
 void showCellByCoordinates(Map & andyMap);
-
-
-
 void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap);
+
+void listAllBuildings(List <BuildingInfo> & buildingsInfoChain);
+void listBuildingsMade(List <BuildingInfo> & buildingsInfoChain);
+
+void printAllBuildings(Node<BuildingInfo> * aux);
+void printListOfBuildingsMade(Node<BuildingInfo> * aux);
+
+
+
+
 
 
 void printConfirmationToBuild();
+void printTitleAllBuildings();
+void printHeaderAllBuildings();
+void printTitleBuildingsMade();
+void printHeaderBuildingsMade();
+
 
 #endif

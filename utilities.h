@@ -29,7 +29,7 @@ void loadMaterials(List <Materials> & materialsChain);
 // Caso contrario, se indica que no se pudo abrir el archivo y finaliza la función.
 void loadBuildingsData(List <BuildingInfo> & buildings_chain);
 
-void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoChain);
+void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoChain, int row, int column);
 void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain);
 void createMap(Map & andyMap);
 void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain);

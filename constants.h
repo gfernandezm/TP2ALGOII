@@ -33,6 +33,7 @@ static const int MATERIAL_PRODUCED_SAWMILL = 25;
 static const int MATERIAL_PRODUCED_FACTORY = 40;
 
 static const int CONFIRMATION_BUILD_YES = 1;
+static const int INIT_SIZE = 10;
 
 static const string ERR_CANT_OPEN_FILE = "No se pudo abrir el archivo.";
 static const string ERR_INCORRECT_FILE = "El archivo esta mal formado.";

@@ -11,6 +11,7 @@
 #include "buildingInfo.h"
 #include "list.h"
 #include "node.h"
+#include "arrayOfCoordinates.h"
 
 
 void loadBuildingsData(List <BuildingInfo> & buildingsInfoChain){
@@ -134,7 +135,8 @@ void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain){
             }   
             
             if(andyMap.buildBuilding(rows, columns, str) == true)
-                loadBuildingsMadeFromFile(str, buildingInfoChain);
+                loadBuildingsMadeFromFile(str, buildingInfoChain, rows, columns);
+                
             else{
                 cout << ERR_INCORRECT_FILE << endl;
                 exit(1);
@@ -149,7 +151,7 @@ void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain){
    
 }
 
-void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoChain){
+void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoChain, int row, int column){
     bool flag = false;
     Node<BuildingInfo> * aux = buildingInfoChain.getFirst();
 
@@ -157,6 +159,7 @@ void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoCha
 
         if(aux->getData().getBuildingName() == str){
             aux->getData().setBuildingsMade(aux->getData().getBuildingsMade()+1);
+            aux->getData().addCoordinates(row, column);
             flag = true;
         }
         aux = aux->getNext();

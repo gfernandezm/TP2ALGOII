@@ -31,11 +31,11 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
             break;
 
         case LIST_CONSTRUCTUCTED_BUILDINGS:
-            cout << "opcion 2" << endl;
+            listBuildingsMade(buildingsInfoChain);
             break;
 
         case LIST_ALL_BUILDINGS:
-            cout << "opcion 3" << endl;
+            listAllBuildings(buildingsInfoChain);
             break;
 
         case DEMOLISH_BUILDING_BY_COORDINATES:
@@ -89,6 +89,7 @@ void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &bu
 
                     if(ConfirmationToBuild() == CONFIRMATION_BUILD_YES){
                         if(andyMap.buildBuilding(row, column, building) == true){
+                            ptrBuildInfoNode->getData().addCoordinates(row, column);
                             ptrBuildInfoNode->getData().setBuildingsMade(ptrBuildInfoNode->getData().getBuildingsMade() + 1);
                             updateMaterialsAmount(ptrBuildInfoNode, materialsChain);
                             cout << BUILD_BUILDING_SUCCESS << building << endl;
@@ -102,6 +103,9 @@ void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &bu
         }
     } else
         cerr << ERR_BUILDING_NOT_FOUND << endl;
+
+    ptrBuildInfoNode->getData().printCoordinates();
+
 }
 
 
@@ -144,6 +148,51 @@ void listConstructionMaterials(List <Materials> * materialsChain){
 }
 
 
+void listAllBuildings(List <BuildingInfo> & buildingsInfoChain){
+    Node<BuildingInfo> * aux = buildingsInfoChain.getFirst();
+
+    printTitleAllBuildings();
+    printHeaderAllBuildings();
+
+    while(aux != 0){
+        printAllBuildings(aux);
+        aux = aux->getNext();     
+    }	
+	
+    cout << endl;
+}
+
+void printAllBuildings(Node<BuildingInfo> * aux){
+    int width = 11;
+
+    cout << left << TAB
+    << setw(2*width) << (aux->getData()).getBuildingName()  << setw(1) << "|" 
+    << setw(width) << (aux->getData()).getStoneRequired() << setw(1) << "|" 
+    << setw(width) << (aux->getData()).getWoodRequired()  << setw(1) << "|" 
+    << setw(width) << (aux->getData()).getMetalRequired() << setw(1) << "|" 
+    << setw(2*width) << (aux->getData()).getBuildingsMade() << setw(1) << "|" 
+    << setw(width) <<(aux->getData()).getBuildingsAllowed() - (aux->getData()).getBuildingsMade()
+    << setw(1) << endl;
+}
+
+
+void listBuildingsMade(List <BuildingInfo> & buildingsInfoChain){
+    Node<BuildingInfo> * aux = buildingsInfoChain.getFirst();
+
+    printTitleBuildingsMade();
+    printHeaderBuildingsMade();
+
+    while(aux != 0){
+        if((aux->getData()).getBuildingsMade() > 0)
+            printListOfBuildingsMade(aux);
+
+        aux = aux->getNext();
+    }
+	
+    cout << endl;
+}
+
+
 
 
 
@@ -151,7 +200,7 @@ void displayMenu(){
 
     cout << TAB << BGND_DARK_AQUA_24 << TAB << TAB << TAB << TAB << " MENU" << TAB << TAB << TAB << TAB << TAB << TAB << END_COLOR << endl;
     cout << TAB << BGND_DARK_AQUA_24 << "_____________________________________________" << END_COLOR << endl;
-    cout << TAB << BGND_DARK_AQUA_24 << "|  1. Constuir edificio por nombre.         |" << END_COLOR << endl;
+    cout << TAB << BGND_DARK_AQUA_24 << "|  1. Construir edificio por nombre.        |" << END_COLOR << endl;
     cout << TAB << BGND_DARK_AQUA_24 << "|  2. Listar los edificios construidos      |" << END_COLOR << endl;
     cout << TAB << BGND_DARK_AQUA_24 << "|  3. Listar todos los edificios            |" << END_COLOR << endl;
     cout << TAB << BGND_DARK_AQUA_24 << "|  4. Demoler un edificio por coordenada.   |" << END_COLOR << endl;
@@ -190,4 +239,45 @@ void printConfirmationToBuild(){
     cout << TXT_ORANGE_166 << ENTER_OPTION << END_COLOR << endl;
     cout << TXT_ORANGE_166 << "1. Si" << END_COLOR << endl;
     cout << TXT_ORANGE_166 << "2. No" << END_COLOR << endl;
+}
+
+void printTitleAllBuildings(){
+    cout << TAB << BGND_DARK_AQUA_24 << "_________________________________________" << END_COLOR << endl;
+    cout << TAB << BGND_DARK_AQUA_24 << "|    Listado de todos los edificios     |" << END_COLOR << endl;
+    cout << TAB << BGND_DARK_AQUA_24 << "|_______________________________________|" << END_COLOR << endl;
+}
+
+void printHeaderAllBuildings(){
+    int width = 11;
+    cout << left << TAB
+    << setw(2*width) << "Edificio"                          << setw(1) << "|" 
+    << setw(width) << "Piedra"                              << setw(1) << "|"
+    << setw(width) << "Madera"                              << setw(1) << "|"
+    << setw(width) << "Metal"                               << setw(1) << "|"
+    << setw(2*width) << "Cantidad construida"               << setw(1) << "|"
+    << setw(width) << "Cantidad disponible para construir"  << setw(1) 
+    << endl;
+}
+
+void printTitleBuildingsMade(){
+    cout << TAB << BGND_DARK_AQUA_24 << "_________________________________________" << END_COLOR << endl;
+    cout << TAB << BGND_DARK_AQUA_24 << "|   Listado de edificios construidos    |" << END_COLOR << endl;
+    cout << TAB << BGND_DARK_AQUA_24 << "|_______________________________________|" << END_COLOR << endl;
+}
+
+void printHeaderBuildingsMade(){
+    int width = 15;
+    cout << left << TAB << setw(2*width)  << "Edificio" << setw(1) << "|" 
+    << setw(2*width) << "Cantidad construida" << setw(1) << "|"
+    << setw(2*width) << "Coordenadas" << endl;
+}
+
+void printListOfBuildingsMade(Node<BuildingInfo> * aux){
+    int width = 15;
+    cout << left << TAB 
+    << setw(2*width) << (aux->getData()).getBuildingName() << setw(1) << "|"
+    << setw(2*width) << (aux->getData()).getBuildingsMade() << setw(1) << "|";
+    
+    (aux->getData()).printCoordinates();
+    cout << endl;  
 }

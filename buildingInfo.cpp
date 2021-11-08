@@ -14,6 +14,7 @@ BuildingInfo::BuildingInfo(){
     metalRequired = 0;
     buildingsAllowed = 0;
     buildingsMade = 0;
+
 }
 
 BuildingInfo::BuildingInfo(string buildName, int stoneReq, int woodReq, int metalReq, int buildAllowed){
@@ -25,7 +26,7 @@ BuildingInfo::BuildingInfo(string buildName, int stoneReq, int woodReq, int meta
     buildingsMade = 0;
 }
 
-
+//este borrar 
 BuildingInfo::BuildingInfo(const BuildingInfo & building){
     buildingName = building.buildingName;
     stoneRequired = building.stoneRequired;
@@ -92,6 +93,17 @@ int BuildingInfo::getBuildingsMade()const{
 }
 
 
+void BuildingInfo::addCoordinates(int row, int column){
+    arrayOfCoordinates.pushBack(row, column);
+}
+
+
+void BuildingInfo::printCoordinates(){
+    arrayOfCoordinates.print();
+}
+
+
+
 // Setters
 
 void BuildingInfo::setBuildingName(string builName){
@@ -117,3 +129,5 @@ void BuildingInfo::setBuildingsAllowed(int builAllowed){
 void BuildingInfo::setBuildingsMade(int builMade){
     buildingsMade = builMade;
 }
+
+
