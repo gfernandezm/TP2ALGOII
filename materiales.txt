@@ -1,0 +1,4 @@
+piedra 1240
+madera 2299
+metal 3640
+oro 200

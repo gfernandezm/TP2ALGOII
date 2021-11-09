@@ -22,9 +22,11 @@ int main(){
     Map andyMap;
 
     system (CLR_SCREEN);
+
     loadBuildingsData(buildingsInfoChain);
     loadMaterials(materialsChain);
     loadMap(andyMap, buildingsInfoChain);
+    
 
     while (option != LEAVE) {
         option = UNDEFINE;

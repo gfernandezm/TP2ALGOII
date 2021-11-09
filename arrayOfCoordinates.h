@@ -22,6 +22,7 @@ public:
 
     void pushBack(int row, int column);
     void print();
+    void deletee(int row, int column);
 
     CoordinatesOfBuilding operator[](size_t index);
 

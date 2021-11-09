@@ -38,6 +38,34 @@ void CellBuildable::build(string building){
     isBuilt = true;
 }
 
+////////////////
+
+bool CellBuildable::demolish(string & demolishedBuilding){
+    bool demolishStatus = false;
+
+    if(isBuilt == true){
+
+        if(ptrBuilding->getIdentifier() == SCHOOL_IDENTIFIER)
+            demolishedBuilding = WORD_SCHOOL;
+        else if(ptrBuilding->getIdentifier() == MINE_IDENTIFIER)
+            demolishedBuilding = WORD_MINE;
+        else if(ptrBuilding->getIdentifier() == SAWMILL_IDENTIFIER)
+            demolishedBuilding = WORD_SAWMILL;
+        else if(ptrBuilding->getIdentifier() == FACTORY_IDENTIFIER)
+            demolishedBuilding = WORD_FACTORY;
+        else if(ptrBuilding->getIdentifier() == OBELISK_IDENTIFIER)
+            demolishedBuilding = WORD_OBELISK;
+        else if(ptrBuilding->getIdentifier() == POWER_PLANT_IDENTIFIER)
+            demolishedBuilding = WORD_POWER_PLANT;
+
+        delete [] ptrBuilding;
+        ptrBuilding = nullptr;
+        isBuilt = false;
+        demolishStatus = true;
+    }   
+    
+    return demolishStatus;
+}
 
 CellBuildable::~CellBuildable(){
     if(ptrBuilding)

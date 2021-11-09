@@ -39,7 +39,7 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
             break;
 
         case DEMOLISH_BUILDING_BY_COORDINATES:
-            cout << "opcion 4" << endl;
+            demolishBuildingByCoordinates(materialsChain, buildingsInfoChain, andyMap);
             break;
 
         case SHOW_MAP:
@@ -74,9 +74,9 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
 }
 
 void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap){
+    int row, column;
     string building;
     Node<BuildingInfo> * ptrBuildInfoNode = nullptr;
-    int row, column;
 
     cout << ENTER_BUILDING_TO_BUILD << endl;
     getline(cin, building);
@@ -104,13 +104,33 @@ void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &bu
     } else
         cerr << ERR_BUILDING_NOT_FOUND << endl;
 
+}
+
+///////////////////
+
+void demolishBuildingByCoordinates(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap){
+    int row,column;
+    string buildingDemolished;
+    Node<BuildingInfo> * ptrBuildInfoNode = buildingsInfoChain.getFirst();
+
+    askCoordinates(row, column);
+
+
+    if(andyMap.demolishBuilding(row, column, buildingDemolished) == true){
+        cout << "entré al if de demolishBuildingByCoordinates" << endl;
+        while(ptrBuildInfoNode != nullptr){
+            if(buildingDemolished == (ptrBuildInfoNode->getData()).getBuildingName()){
+                ptrBuildInfoNode->getData().setBuildingsMade(ptrBuildInfoNode->getData().getBuildingsMade() - 1); //resto uno a construidos %%%%
+                updateMaterialsAmountDemolish(ptrBuildInfoNode, materialsChain);
+                ptrBuildInfoNode->getData().deleteCoordinates(row, column);
+            }    
+            ptrBuildInfoNode = ptrBuildInfoNode->getNext();
+        }
+    }
+
     ptrBuildInfoNode->getData().printCoordinates();
 
 }
-
-
-
-
 
 
 void showCellByCoordinates(Map & andyMap){

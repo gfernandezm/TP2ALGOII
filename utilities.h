@@ -40,6 +40,7 @@ bool isANumber(string cadena);
 bool searchBuildingByName(List<BuildingInfo> & buildingsInfoChain, Node<BuildingInfo> ** ptrBuildInfoNode, string building);
 bool checkBuildingRequirements(Node<BuildingInfo> * ptrBuildInfoNode,  List<Materials> & materialsChain);
 void updateMaterialsAmount(Node<BuildingInfo> * ptrBuildInfoNode, List<Materials> & materialsChain);
+void updateMaterialsAmountDemolish(Node<BuildingInfo> * ptrBuildInfoNode, List<Materials> & materialsChain);
 
 int ConfirmationToBuild();
 

@@ -78,6 +78,7 @@ void printListOfMaterials(Node<Materials> * aux);
 
 void showCellByCoordinates(Map & andyMap);
 void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap);
+void demolishBuildingByCoordinates(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap); ////
 
 void listAllBuildings(List <BuildingInfo> & buildingsInfoChain);
 void listBuildingsMade(List <BuildingInfo> & buildingsInfoChain);

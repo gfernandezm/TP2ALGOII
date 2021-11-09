@@ -1,0 +1,4 @@
+obelisco (7,0)
+escuela (0,3)
+escuela (0,4)
+fabrica (1,2)

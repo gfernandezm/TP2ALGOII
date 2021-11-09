@@ -23,6 +23,7 @@ public:
 
     //void setBuildingIdentifier(string);
     void build(string building);
+    bool demolish(string & demolishedBuilding); /////
     
 
 

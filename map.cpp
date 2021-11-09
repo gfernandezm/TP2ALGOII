@@ -75,7 +75,7 @@ bool Map::buildBuilding(int x, int y, string data){
         status = false;
     }
     else{
-        if(cellPtrMatrix[x][y]->getCellIdentifier()== FIELD_IDENTIFIER){
+        if(cellPtrMatrix[x][y]->getCellIdentifier() == FIELD_IDENTIFIER){
             ((CellBuildable*)cellPtrMatrix[x][y])->build(data);
             status = true;
         }
@@ -87,17 +87,32 @@ bool Map::buildBuilding(int x, int y, string data){
     return status;
 }
 
+///////////////////////////////
 
+bool Map::demolishBuilding(int x, int y, string & demolishedBuilding){
+    bool status;
 
-
-/*
-void Map::buildBuilding(int x, int y, string data){
-    if(x >= rows || y >= columns || x < 0 || y < 0)
-        return;
-
-    ((CellBuildable*)cellPtrMatrix[x][y])->build(data);
+    if(x >= rows || y >= columns || x < 0 || y < 0){
+        cout << ERR_INVALID_COORDINATES << endl;
+        status = false;
+    }
+    else{
+        if(cellPtrMatrix[x][y]->getCellIdentifier() == FIELD_IDENTIFIER){
+            if(((CellBuildable*)cellPtrMatrix[x][y])->demolish(demolishedBuilding) == true){
+                status = true;
+            } 
+            else{
+                status = false;
+                cout << "No hay ningun edificio construido previamente para demoler" << endl;
+            } 
+        }
+        else{
+            cout << "Esta celda no es construible" << endl;
+            status = false;
+        }
+    }
+    return status;
 }
-*/
 
 void Map::printMap(){
     for(int i = 0; i < rows; i++){

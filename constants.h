@@ -57,8 +57,8 @@ static const string DEMOLISH_BUILDING_SUCCESS = "Se destruyo satisfactoriamente 
 static const string INSER_COORDINATES = "Las coordenadas que debe ingresar comienzan en (0,0)";
 
 
-static const string INSERT_ROW = "Ingrese la fila del casillero que desea consultar: ";
-static const string INSERT_COLUMN = "Ingrese la columna del casillero que desea consultar: ";
+static const string INSERT_ROW = "Ingrese la fila del casillero: ";
+static const string INSERT_COLUMN = "Ingrese la columna del casillero: ";
 
 static const string DATA_SAVED = "Todos los cambios han sido guardados";
 

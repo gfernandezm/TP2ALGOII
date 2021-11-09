@@ -98,6 +98,15 @@ void BuildingInfo::addCoordinates(int row, int column){
 }
 
 
+
+void BuildingInfo::deleteCoordinates(int row, int column){
+
+    arrayOfCoordinates.deletee(row, column);
+
+}
+
+
+
 void BuildingInfo::printCoordinates(){
     arrayOfCoordinates.print();
 }

@@ -23,12 +23,12 @@ void loadBuildingsData(List <BuildingInfo> & buildingsInfoChain){
     int metalRequired;
     int buildingsAllowed;   
 
-    file.open("edificios.txt", ios::in); 
+    file.open("edificios.txt", ios::in);
 
     if(file.is_open()){
 
         while(file >> buildingName){
-            
+
             file >> aux;
             if (isANumber(aux) == true) {
                 stoneRequired = stoi(aux);
@@ -41,12 +41,15 @@ void loadBuildingsData(List <BuildingInfo> & buildingsInfoChain){
             file >> metalRequired;
             file >> buildingsAllowed;
 
-            BuildingInfo building(buildingName, stoneRequired, woodRequired, metalRequired,
+           /* BuildingInfo building(buildingName, stoneRequired, woodRequired, metalRequired,
                                   buildingsAllowed);
-
+                                
             Node<BuildingInfo> buildingNode(building);
-            buildingsInfoChain.addNodeEnd(buildingNode);
+            buildingsInfoChain.addNodeEnd(buildingNode);*/
+            buildingsInfoChain.addNodeEnd(BuildingInfo(buildingName, stoneRequired, woodRequired, metalRequired,
+                                  buildingsAllowed));
         }
+
 
  		file.close();
     }
@@ -265,6 +268,34 @@ void updateMaterialsAmount(Node<BuildingInfo> * ptrBuildInfoNode, List<Materials
 
         if((ptrMaterialsNode->getData()).getMaterial() == WORD_WOOD){
             (ptrMaterialsNode->getData()).setAmount( (ptrMaterialsNode->getData()).getAmount() - (ptrBuildInfoNode->getData()).getStoneRequired() );
+            woodChecked = true;
+        }
+
+        ptrMaterialsNode = ptrMaterialsNode->getNext();
+    }
+}
+
+
+
+void updateMaterialsAmountDemolish(Node<BuildingInfo> * ptrBuildInfoNode, List<Materials> & materialsChain){
+    Node<Materials> * ptrMaterialsNode = materialsChain.getFirst();
+    //esto es porque si ya chequeo los 3 materiales que me interesan, no es necesario seguir recorriendo la lista.
+    bool stoneChecked = false, metalChecked = false, woodChecked = false, status = true;
+
+    while(ptrMaterialsNode != nullptr && (!stoneChecked || !metalChecked || !woodChecked) && status != false){
+
+        if((ptrMaterialsNode->getData()).getMaterial() == WORD_STONE){
+            (ptrMaterialsNode->getData()).setAmount((ptrMaterialsNode->getData()).getAmount() + ((ptrBuildInfoNode->getData()).getStoneRequired())/2);        
+            stoneChecked = true;
+        }
+
+        if((ptrMaterialsNode->getData()).getMaterial() == WORD_METAL){
+            (ptrMaterialsNode->getData()).setAmount((ptrMaterialsNode->getData()).getAmount() + ((ptrBuildInfoNode->getData()).getStoneRequired())/2 );
+            metalChecked = true;
+        }
+
+        if((ptrMaterialsNode->getData()).getMaterial() == WORD_WOOD){
+            (ptrMaterialsNode->getData()).setAmount((ptrMaterialsNode->getData()).getAmount() + ((ptrBuildInfoNode->getData()).getStoneRequired())/2 );
             woodChecked = true;
         }
 

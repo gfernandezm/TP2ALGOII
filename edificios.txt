@@ -1,0 +1,7 @@
+planta electrica 120 100 100 1
+yacimiento 125 280 0 2
+escuela 152 298 45 4
+fabrica 100 100 258 4
+aserradero 100 58 50 2
+obelisco 100 100 100 5
+mina 100 200 90 4

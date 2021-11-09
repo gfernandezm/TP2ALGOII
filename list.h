@@ -21,6 +21,7 @@ public:
 	Node<T>* getFirst();
 	void setFirst(Node<T> *);
 	void addNodeEnd(Node <T> node);
+	void addNodeEnd(T node);
 	Node<T> getLastNode();
 	void destroy();
 
@@ -73,6 +74,26 @@ template <typename T> void List<T>::addNodeEnd(Node <T> node){
 		aux1->next = 0;
 	}
 }
+
+template <typename T> void List<T>::addNodeEnd(T data){
+    Node<T> *aux1;
+    Node<T> *aux2;
+    aux1 = new Node<T>(data);
+
+    if(isEmpty()){             //si la lista está vacia, lo agrega al comienzo 
+         first = aux1;
+         first->next = 0;
+        first->prev = 0;
+     } else{
+        aux2 = first;
+        while(aux2->next)
+            aux2 = aux2->next;
+        aux2->next = aux1;
+        aux1->prev = aux2;
+        aux1->next = 0;
+    }
+}
+
 
 template <typename T> Node<T> List<T>::getLastNode(){
 	Node<T> *aux = first;
