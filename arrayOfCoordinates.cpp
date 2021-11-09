@@ -25,6 +25,12 @@ ArrayOfCoordinates::~ArrayOfCoordinates(){
   }
 }
 
+int ArrayOfCoordinates::getSize()const{
+    return size;
+}
+
+
+
 
 /*
 ArrayOfCoordinates::~ArrayOfCoordinates(){

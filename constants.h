@@ -47,6 +47,7 @@ static const string ERR_NO_REMAINING_BUILDINGS_TO_BUILD = "No quedan edificios d
 static const string ERR_NO_REMAINING_BUILDINGS_TO_DEMOLISH = "No quedan edificios disponibles para demoler.";
 static const string ERR_INVALID_COORDINATES = "Las coordenadas no son validas";
 static const string ERR_INVALID_CELL = "No se pudo construir. Se esta intentando construir sobre una celda no construible";
+static const string ERR_CELL_WITH_BUILDING = "No se pudo construir. Se esta intentando construir sobre una celda que ya tiene un edificio construido";
 
 static const string CONFIRMATION_TO_BUILD = "¿Esta seguro que desea construir el edificio?";
 static const string ENTER_BUILDING_TO_BUILD = "Ingrese el nombre del edificio que desea construir: ";

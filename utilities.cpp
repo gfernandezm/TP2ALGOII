@@ -290,12 +290,12 @@ void updateMaterialsAmountDemolish(Node<BuildingInfo> * ptrBuildInfoNode, List<M
         }
 
         if((ptrMaterialsNode->getData()).getMaterial() == WORD_METAL){
-            (ptrMaterialsNode->getData()).setAmount((ptrMaterialsNode->getData()).getAmount() + ((ptrBuildInfoNode->getData()).getStoneRequired())/2 );
+            (ptrMaterialsNode->getData()).setAmount((ptrMaterialsNode->getData()).getAmount() + ((ptrBuildInfoNode->getData()).getMetalRequired())/2 );
             metalChecked = true;
         }
 
         if((ptrMaterialsNode->getData()).getMaterial() == WORD_WOOD){
-            (ptrMaterialsNode->getData()).setAmount((ptrMaterialsNode->getData()).getAmount() + ((ptrBuildInfoNode->getData()).getStoneRequired())/2 );
+            (ptrMaterialsNode->getData()).setAmount((ptrMaterialsNode->getData()).getAmount() + ((ptrBuildInfoNode->getData()).getWoodRequired())/2 );
             woodChecked = true;
         }
 

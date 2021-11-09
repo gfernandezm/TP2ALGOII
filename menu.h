@@ -20,6 +20,8 @@
 #include "map.h"
 #include "utilities.h"
 #include "arrayOfCoordinates.h"
+#include "cell.h"
+#include "cellBuildable.h"
 
 using namespace std;
 
@@ -33,13 +35,15 @@ typedef enum {
 	SHOW_MAP = 5,
 	ASK_COORDINATES = 6,
 	SHOW_INVENTARY = 7,
-	COLECT_RESOURCES = 8,
+	COLLECT_RESOURCES = 8,
 	RESOURCES_STORM = 9,
 	SAVE_AND_LEAVE = 10,
 	LEAVE = 11
 
 } opcion_menu_t;
 
+
+void menu(opcion_menu_t & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap);
 
 // PRE: Las listas recibidas deben estar creadas, aunque estén vacías.
 // POST: Se llaman a las funciones contempladas en las opciones del 1 al 6 si el usuario ingresa esas opciones.
@@ -86,9 +90,9 @@ void listBuildingsMade(List <BuildingInfo> & buildingsInfoChain);
 void printAllBuildings(Node<BuildingInfo> * aux);
 void printListOfBuildingsMade(Node<BuildingInfo> * aux);
 
-
-
-
+void collectResources(List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap);
+void addResourcesToMaterialsChain(List<Materials> & materialsChain, Node<BuildingInfo> * ptrBuildInfoNode, Map & andyMap);
+void addMaterial(List<Materials> & materialsChain, string material, int materialAmount);
 
 
 void printConfirmationToBuild();

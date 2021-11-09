@@ -92,6 +92,12 @@ int BuildingInfo::getBuildingsMade()const{
     return buildingsMade;
 }
 
+ArrayOfCoordinates BuildingInfo::getArrayOfCoordinates(){
+    return arrayOfCoordinates;
+}
+
+
+
 
 void BuildingInfo::addCoordinates(int row, int column){
     arrayOfCoordinates.pushBack(row, column);

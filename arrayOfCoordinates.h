@@ -24,6 +24,10 @@ public:
     void print();
     void deletee(int row, int column);
 
+    int getSize()const;
+    // getArray()
+
+
     CoordinatesOfBuilding operator[](size_t index);
 
 };

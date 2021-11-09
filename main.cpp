@@ -14,7 +14,6 @@
 
 using namespace std;
 
-
 int main(){
     opcion_menu_t option = UNDEFINE;
     List<BuildingInfo> buildingsInfoChain;
@@ -27,13 +26,7 @@ int main(){
     loadMaterials(materialsChain);
     loadMap(andyMap, buildingsInfoChain);
     
-
-    while (option != LEAVE) {
-        option = UNDEFINE;
-        handleMenu(option);
-        processOption(option, materialsChain, buildingsInfoChain, andyMap);
-    }
-
+    menu(option, materialsChain, buildingsInfoChain, andyMap);
 
     return 0;
 }

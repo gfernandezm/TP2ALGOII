@@ -21,10 +21,12 @@ public:
     void showCell();
     void showCellInfo();
 
+    bool getIsBuilt();
     //void setBuildingIdentifier(string);
     void build(string building);
-    bool demolish(string & demolishedBuilding); /////
-    
+    bool demolish(string & demolishedBuilding); ////
+    Building getBuilding();
+
 
 
 };

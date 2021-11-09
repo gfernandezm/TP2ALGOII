@@ -8,6 +8,15 @@
 
 using namespace std;
 
+void menu(opcion_menu_t & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap){
+    while (option != LEAVE) {
+        option = UNDEFINE;
+        handleMenu(option);
+        processOption(option, materialsChain, buildingsInfoChain, andyMap);
+    }
+}
+
+
 void handleMenu(opcion_menu_t& option) {
     int selectedOption = 0;
     string aux;
@@ -54,8 +63,8 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
             listConstructionMaterials(&materialsChain);
             break;
             
-        case COLECT_RESOURCES:
-            cout << "opcion 8" << endl;
+        case COLLECT_RESOURCES:
+            collectResources(materialsChain, buildingsInfoChain, andyMap);
             break;
         
         case RESOURCES_STORM:
@@ -86,15 +95,18 @@ void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &bu
             askCoordinates(row,column);
             if(andyMap.validateCoordinates(row, column) == true){
                 if((ptrBuildInfoNode->getData()).getBuildingsAllowed() - (ptrBuildInfoNode->getData()).getBuildingsMade() > 0){
-
-                    if(ConfirmationToBuild() == CONFIRMATION_BUILD_YES){
-                        if(andyMap.buildBuilding(row, column, building) == true){
-                            ptrBuildInfoNode->getData().addCoordinates(row, column);
-                            ptrBuildInfoNode->getData().setBuildingsMade(ptrBuildInfoNode->getData().getBuildingsMade() + 1);
-                            updateMaterialsAmount(ptrBuildInfoNode, materialsChain);
-                            cout << BUILD_BUILDING_SUCCESS << building << endl;
+                    if( ((CellBuildable*)(andyMap.getElement(row, column)))->getIsBuilt() != true ){
+                        if(ConfirmationToBuild() == CONFIRMATION_BUILD_YES){
+                            if(andyMap.buildBuilding(row, column, building) == true){
+                                ptrBuildInfoNode->getData().addCoordinates(row, column);
+                                ptrBuildInfoNode->getData().setBuildingsMade(ptrBuildInfoNode->getData().getBuildingsMade() + 1);
+                                updateMaterialsAmount(ptrBuildInfoNode, materialsChain);
+                                cout << BUILD_BUILDING_SUCCESS << building << endl;
+                            }
                         }
                     }
+                    else
+                        cout << ERR_CELL_WITH_BUILDING << endl;
                 }
                 else
                     cerr << ERR_NO_REMAINING_BUILDINGS_TO_BUILD << endl;
@@ -112,23 +124,23 @@ void demolishBuildingByCoordinates(List<Materials> &materialsChain, List<Buildin
     int row,column;
     string buildingDemolished;
     Node<BuildingInfo> * ptrBuildInfoNode = buildingsInfoChain.getFirst();
+    bool buildingFoundFlag = false;
 
     askCoordinates(row, column);
 
 
     if(andyMap.demolishBuilding(row, column, buildingDemolished) == true){
-        cout << "entré al if de demolishBuildingByCoordinates" << endl;
-        while(ptrBuildInfoNode != nullptr){
+        while(ptrBuildInfoNode != nullptr && buildingFoundFlag == false){
             if(buildingDemolished == (ptrBuildInfoNode->getData()).getBuildingName()){
-                ptrBuildInfoNode->getData().setBuildingsMade(ptrBuildInfoNode->getData().getBuildingsMade() - 1); //resto uno a construidos %%%%
+                ptrBuildInfoNode->getData().setBuildingsMade(ptrBuildInfoNode->getData().getBuildingsMade() - 1); 
                 updateMaterialsAmountDemolish(ptrBuildInfoNode, materialsChain);
                 ptrBuildInfoNode->getData().deleteCoordinates(row, column);
-            }    
-            ptrBuildInfoNode = ptrBuildInfoNode->getNext();
+                buildingFoundFlag = true;
+            } 
+            else   
+                ptrBuildInfoNode = ptrBuildInfoNode->getNext();
         }
     }
-
-    ptrBuildInfoNode->getData().printCoordinates();
 
 }
 
@@ -181,6 +193,57 @@ void listAllBuildings(List <BuildingInfo> & buildingsInfoChain){
 	
     cout << endl;
 }
+
+void collectResources(List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap){
+    string buildingDemolished;
+    Node<BuildingInfo> * ptrBuildInfoNode = buildingsInfoChain.getFirst();
+
+    
+    while(ptrBuildInfoNode != nullptr){
+        if(ptrBuildInfoNode->getData().getBuildingsMade() > 0){
+            addResourcesToMaterialsChain(materialsChain, ptrBuildInfoNode, andyMap);
+        }
+
+        ptrBuildInfoNode = ptrBuildInfoNode->getNext();
+    }
+
+}
+
+
+void addResourcesToMaterialsChain(List<Materials> & materialsChain, Node<BuildingInfo> * ptrBuildInfoNode, Map & andyMap){
+    int row, column;
+    string material;
+    int materialAmount;
+
+    for(int i = 0; i < ptrBuildInfoNode->getData().getArrayOfCoordinates().getSize(); i++){
+
+            row = ptrBuildInfoNode->getData().getArrayOfCoordinates()[i].row;
+            column = ptrBuildInfoNode->getData().getArrayOfCoordinates()[i].column;
+            material = ((CellBuildable*)(andyMap.getElement(row, column)))->getBuilding().getGeneratedMaterial();
+            materialAmount = ((CellBuildable*)(andyMap.getElement(row, column)))->getBuilding().getGeneratedMaterialAmount();
+
+            addMaterial(materialsChain, material, materialAmount);
+    }
+    
+}
+
+void addMaterial(List<Materials> & materialsChain, string material, int materialAmount){
+    Node<Materials> * ptrMaterialsNode = materialsChain.getFirst();
+    bool flag = false;
+
+    while(ptrMaterialsNode != nullptr && flag == false){
+
+        if(ptrMaterialsNode->getData().getMaterial() == material){
+            ptrMaterialsNode->getData().setAmount(ptrMaterialsNode->getData().getAmount() + materialAmount);
+            flag = true;
+        }
+        else
+            ptrMaterialsNode = ptrMaterialsNode->getNext();
+    }
+
+}
+
+
 
 void printAllBuildings(Node<BuildingInfo> * aux){
     int width = 11;

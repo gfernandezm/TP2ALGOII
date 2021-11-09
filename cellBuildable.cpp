@@ -58,7 +58,7 @@ bool CellBuildable::demolish(string & demolishedBuilding){
         else if(ptrBuilding->getIdentifier() == POWER_PLANT_IDENTIFIER)
             demolishedBuilding = WORD_POWER_PLANT;
 
-        delete [] ptrBuilding;
+        delete ptrBuilding;
         ptrBuilding = nullptr;
         isBuilt = false;
         demolishStatus = true;
@@ -110,6 +110,14 @@ CellBuildable::CellBuildable(int x, int y, string identif) : Cell(x, y, identif)
     isBuilt = false;
 }
 
+Building CellBuildable::getBuilding(){
+    //if(ptrBuilding != nullptr)
+    return *ptrBuilding;
+}
+
+bool CellBuildable::getIsBuilt(){
+    return isBuilt;
+}
 
 
 

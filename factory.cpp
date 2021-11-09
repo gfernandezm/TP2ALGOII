@@ -9,7 +9,7 @@ using namespace std;
 
 Factory::Factory(){
     identifier = FACTORY_IDENTIFIER;
-    generatedMaterial = WORD_WOOD;
+    generatedMaterial = WORD_METAL;
     generatedMaterialAmount = MATERIAL_PRODUCED_FACTORY;
 }
 
