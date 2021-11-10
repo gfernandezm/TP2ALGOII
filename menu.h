@@ -22,6 +22,7 @@
 #include "arrayOfCoordinates.h"
 #include "cell.h"
 #include "cellBuildable.h"
+#include "cellPassable.h"
 
 using namespace std;
 
@@ -43,7 +44,7 @@ typedef enum {
 } opcion_menu_t;
 
 
-void menu(opcion_menu_t & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap);
+void menu(opcion_menu_t & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap, ArrayOfCoordinates & roadsCoordinates);
 
 // PRE: Las listas recibidas deben estar creadas, aunque estén vacías.
 // POST: Se llaman a las funciones contempladas en las opciones del 1 al 6 si el usuario ingresa esas opciones.
@@ -56,7 +57,7 @@ void displayMenu();
 
 //bool validateOption(int selectedOption);
 
-void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap);
+void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap, ArrayOfCoordinates & roadsCoordinates);
 
 
 
@@ -93,7 +94,10 @@ void printListOfBuildingsMade(Node<BuildingInfo> * aux);
 void collectResources(List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap);
 void addResourcesToMaterialsChain(List<Materials> & materialsChain, Node<BuildingInfo> * ptrBuildInfoNode, Map & andyMap);
 void addMaterial(List<Materials> & materialsChain, string material, int materialAmount);
-
+void resourcesStorm(Map & andyMap, ArrayOfCoordinates & roadsCoordinates);
+void saveAndQuit(List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain);
+void saveMaterials(List<Materials> & materialsChain);
+void saveBuildingsLocation(List<BuildingInfo> & buildingsInfoChain);
 
 void printConfirmationToBuild();
 void printTitleAllBuildings();

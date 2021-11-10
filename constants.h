@@ -56,6 +56,10 @@ static const string ENTER_OPTION = "Ingrese el numero correspondiente a la accio
 static const string BUILD_BUILDING_SUCCESS = "Se construyo satisfactoriamente una unidad del edificio: ";
 static const string DEMOLISH_BUILDING_SUCCESS = "Se destruyo satisfactoriamente una unidad del edificio: ";
 static const string INSER_COORDINATES = "Las coordenadas que debe ingresar comienzan en (0,0)";
+static const string PASSABLE_CELL_WITH_WOOD = "Este es un casillero transitable y contiene una unidad de madera.";
+static const string PASSABLE_CELL_WITH_METAL = "Este es un casillero transitable y contiene una unidad de metal.";
+static const string PASSABLE_CELL_WITH_STONE = "Este es un casillero transitable y contiene una unidad de piedra.";
+static const string PASSABLE_CELL_EMPTY = "Este es un casillero transitable y se encuentra vacio.";
 
 
 static const string INSERT_ROW = "Ingrese la fila del casillero: ";

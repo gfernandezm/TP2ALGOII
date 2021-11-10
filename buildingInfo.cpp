@@ -92,7 +92,7 @@ int BuildingInfo::getBuildingsMade()const{
     return buildingsMade;
 }
 
-ArrayOfCoordinates BuildingInfo::getArrayOfCoordinates(){
+ArrayOfCoordinates& BuildingInfo::getArrayOfCoordinates(){
     return arrayOfCoordinates;
 }
 

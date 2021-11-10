@@ -8,11 +8,11 @@
 
 using namespace std;
 
-void menu(opcion_menu_t & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap){
+void menu(opcion_menu_t & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap, ArrayOfCoordinates & roadsCoordinates){
     while (option != LEAVE) {
         option = UNDEFINE;
         handleMenu(option);
-        processOption(option, materialsChain, buildingsInfoChain, andyMap);
+        processOption(option, materialsChain, buildingsInfoChain, andyMap, roadsCoordinates);
     }
 }
 
@@ -32,7 +32,7 @@ void handleMenu(opcion_menu_t& option) {
   
 }
 
-void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap){
+void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap, ArrayOfCoordinates & roadsCoordinates){
 
     switch(selectedOption){
         case BUILD_BUILDING_BY_NAME:
@@ -68,11 +68,11 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
             break;
         
         case RESOURCES_STORM:
-            cout << "opcion 9" << endl;
+            resourcesStorm(andyMap, roadsCoordinates);
             break;
 
         case SAVE_AND_LEAVE:
-            cout << "opcion 10" << endl;
+            saveAndQuit(materialsChain, buildingsInfoChain);
             selectedOption = LEAVE;
             break;
 
@@ -197,16 +197,13 @@ void listAllBuildings(List <BuildingInfo> & buildingsInfoChain){
 void collectResources(List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap){
     string buildingDemolished;
     Node<BuildingInfo> * ptrBuildInfoNode = buildingsInfoChain.getFirst();
-
     
     while(ptrBuildInfoNode != nullptr){
         if(ptrBuildInfoNode->getData().getBuildingsMade() > 0){
             addResourcesToMaterialsChain(materialsChain, ptrBuildInfoNode, andyMap);
         }
-
         ptrBuildInfoNode = ptrBuildInfoNode->getNext();
     }
-
 }
 
 
@@ -224,7 +221,6 @@ void addResourcesToMaterialsChain(List<Materials> & materialsChain, Node<Buildin
 
             addMaterial(materialsChain, material, materialAmount);
     }
-    
 }
 
 void addMaterial(List<Materials> & materialsChain, string material, int materialAmount){
@@ -232,7 +228,6 @@ void addMaterial(List<Materials> & materialsChain, string material, int material
     bool flag = false;
 
     while(ptrMaterialsNode != nullptr && flag == false){
-
         if(ptrMaterialsNode->getData().getMaterial() == material){
             ptrMaterialsNode->getData().setAmount(ptrMaterialsNode->getData().getAmount() + materialAmount);
             flag = true;
@@ -240,7 +235,101 @@ void addMaterial(List<Materials> & materialsChain, string material, int material
         else
             ptrMaterialsNode = ptrMaterialsNode->getNext();
     }
+}
 
+
+void resourcesStorm(Map & andyMap, ArrayOfCoordinates & roadsCoordinates){
+   /* int row, column, counter;
+    int generatedStone, generatedMetal, generatedWood;
+
+    generatedStone = rand()%(2-1+1)+1;
+    generatedWood = rand()%(1-0+1)+0;
+    generatedMetal = rand()%(4-2+1)+2;
+
+   for(int i = 0; i < roadsCoordinates.getSize(); i++){
+        row = roadsCoordinates[i].row;
+        column = roadsCoordinates[i].column;
+
+        if (((CellPassable*)(andyMap.getElement(row, column)))->getMaterial().getIdentifier().empty()){
+
+            for(int j = 0; j < generatedStone; j++){
+                ((CellPassable*)(andyMap.getElement(row, column)))->addMaterial("piedra");
+            }
+
+
+
+
+            counter++;
+        }
+
+        
+    }*/
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void saveAndQuit(List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain){
+    saveMaterials(materialsChain);
+    saveBuildingsLocation(buildingsInfoChain);
+}
+
+void saveMaterials(List<Materials> & materialsChain){
+    fstream file;
+    Node<Materials> * ptrMaterialsNode = materialsChain.getFirst();
+
+    file.open("materiales.txt", ios::out);
+
+    if(file.is_open()){
+        while(ptrMaterialsNode != 0){
+
+            file << (ptrMaterialsNode->getData()).getMaterial() << " ";
+            file << (ptrMaterialsNode->getData()).getAmount() << endl;
+
+            ptrMaterialsNode = ptrMaterialsNode->getNext();
+        }
+ 		file.close();
+    }
+	else
+		cerr << ERR_CANT_OPEN_FILE << endl;
+}
+
+void saveBuildingsLocation(List<BuildingInfo> & buildingsInfoChain){
+    fstream file;
+    Node<BuildingInfo> * ptrBuildInfoNode = buildingsInfoChain.getFirst();
+
+    file.open("ubicaciones.txt", ios::out);
+
+    if(file.is_open()){
+
+        while(ptrBuildInfoNode != 0){
+
+            for(int i = 0; i < ptrBuildInfoNode->getData().getArrayOfCoordinates().getSize(); i++){
+                file << (ptrBuildInfoNode->getData()).getBuildingName();
+                file << " " << "(";
+                file << ptrBuildInfoNode->getData().getArrayOfCoordinates()[i].row;
+                file << ",";
+                file << ptrBuildInfoNode->getData().getArrayOfCoordinates()[i].column;
+                file << ")" << endl;
+            }
+            ptrBuildInfoNode = ptrBuildInfoNode->getNext();
+        }
+ 		file.close();
+    }
+	else
+		cerr << ERR_CANT_OPEN_FILE << endl;
 }
 
 

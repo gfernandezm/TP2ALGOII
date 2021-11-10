@@ -15,27 +15,38 @@ CellPassable::~CellPassable(){
 }
 
 
+void CellPassable::addMaterial(string material1){
+    material.setMaterial(material1);
+    material.setAmount(1);
+    material.setIdentifier(STONE_IDENTIFIER);
+}
+
+Materials& CellPassable::getMaterial(){
+    return material;
+}
+
+
 void CellPassable::showCell(){
-
-
-    cout << BGND_LIGHT_GRAY_246 << '|' << ' ' << '|' << END_COLOR;
-
-/*
-    if(material.getIdentifier() == STONE_IDENTIFIER){
-        cout << "soy un casillero transitable y tengo piedra" << endl;
-    } else if(material.getIdentifier() == WOOD_IDENTIFIER){
-        cout << "soy un casillero transitable y tengo madera" << endl;
-    } else if(material.getIdentifier() == METAL_IDENTIFIER){
-        cout << "soy un casillero transitable y tengo metal" << endl;
-    } else 
-        cout << "soy un camino y estoy vacío jeje" << endl;
-*/
+    
+    if(!material.getIdentifier().empty())
+        cout << BGND_LIGHT_GRAY_246 << '|' << material.getIdentifier() << '|' << END_COLOR;
+    
+    else 
+        cout << BGND_LIGHT_GRAY_246 << '|' << " " << '|' << END_COLOR;
 
 }
 
 void CellPassable::showCellInfo(){
 
-    cout << "Este casillero es un camino" << endl;
+    if(material.getIdentifier() == WOOD_IDENTIFIER){
+        cout << PASSABLE_CELL_WITH_WOOD << endl;
+    } else if(material.getIdentifier() == METAL_IDENTIFIER){
+        cout << PASSABLE_CELL_WITH_METAL << endl;
+    } else if(material.getIdentifier() == STONE_IDENTIFIER){
+        cout << PASSABLE_CELL_WITH_STONE << endl;
+    }
+    else
+        cout << PASSABLE_CELL_EMPTY << endl;
 
 }
 

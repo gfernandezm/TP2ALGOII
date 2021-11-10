@@ -31,7 +31,7 @@ public:
     int getMetalRequired()const;
     int getBuildingsAllowed()const;
     int getBuildingsMade()const;
-    ArrayOfCoordinates getArrayOfCoordinates();
+    ArrayOfCoordinates & getArrayOfCoordinates();
 
     void addCoordinates(int, int);
     void deleteCoordinates(int row, int column);

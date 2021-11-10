@@ -18,6 +18,9 @@ public:
 
     void showCell();
     void showCellInfo();
+    void addMaterial(string material1);
+    Materials& getMaterial();
+
 
 
 };

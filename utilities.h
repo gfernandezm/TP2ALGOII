@@ -30,8 +30,8 @@ void loadMaterials(List <Materials> & materialsChain);
 void loadBuildingsData(List <BuildingInfo> & buildings_chain);
 
 void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoChain, int row, int column);
-void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain);
-void createMap(Map & andyMap);
+void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain, ArrayOfCoordinates & roadsCoordinates);
+void createMap(Map & andyMap, ArrayOfCoordinates & roadsCoordinates);
 void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain);
 
 void askCoordinates(int & row, int & column);

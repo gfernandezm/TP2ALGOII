@@ -82,13 +82,13 @@ void loadMaterials(List <Materials> & materialsChain) {
 }
 
 
-void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain){
-    createMap(andyMap);
+void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain, ArrayOfCoordinates & roadsCoordinates){
+    createMap(andyMap, roadsCoordinates);
     loadMapFromFile(andyMap, buildingInfoChain);
 }
 
 
-void createMap(Map & andyMap){
+void createMap(Map & andyMap, ArrayOfCoordinates & roadsCoordinates){
     fstream file;
     string str;
     int rows;
@@ -105,6 +105,10 @@ void createMap(Map & andyMap){
             for(int j = 0; j < columns; j++){
                 file >> str;
                 andyMap.addElement(i, j, str);
+
+                if(andyMap.getElement(i, j)->getCellIdentifier() == ROAD_IDENTIFIER)
+                    roadsCoordinates.pushBack(i, j);
+                
             }
         }
         file.close();
@@ -113,6 +117,8 @@ void createMap(Map & andyMap){
         cerr << ERR_CANT_OPEN_FILE << endl;
     }
 }
+
+
 
 void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain){
     fstream file;
@@ -135,11 +141,11 @@ void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain){
                 file >> coordinates;
                 rows = coordinates[1] - '0';
                 columns = coordinates[3] - '0';
-            }   
-            
+            }
+
+
             if(andyMap.buildBuilding(rows, columns, str) == true)
-                loadBuildingsMadeFromFile(str, buildingInfoChain, rows, columns);
-                
+                loadBuildingsMadeFromFile(str, buildingInfoChain, rows, columns);    
             else{
                 cout << ERR_INCORRECT_FILE << endl;
                 exit(1);

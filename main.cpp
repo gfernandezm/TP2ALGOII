@@ -19,14 +19,15 @@ int main(){
     List<BuildingInfo> buildingsInfoChain;
     List<Materials> materialsChain;
     Map andyMap;
+    ArrayOfCoordinates roadsCoordinates;
 
     system (CLR_SCREEN);
 
     loadBuildingsData(buildingsInfoChain);
     loadMaterials(materialsChain);
-    loadMap(andyMap, buildingsInfoChain);
-    
-    menu(option, materialsChain, buildingsInfoChain, andyMap);
+    loadMap(andyMap, buildingsInfoChain, roadsCoordinates);
+        
+    menu(option, materialsChain, buildingsInfoChain, andyMap, roadsCoordinates);
 
     return 0;
 }
