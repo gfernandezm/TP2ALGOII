@@ -14,7 +14,6 @@ BuildingInfo::BuildingInfo(){
     metalRequired = 0;
     buildingsAllowed = 0;
     buildingsMade = 0;
-
 }
 
 BuildingInfo::BuildingInfo(string buildName, int stoneReq, int woodReq, int metalReq, int buildAllowed){
@@ -34,7 +33,6 @@ BuildingInfo::BuildingInfo(const BuildingInfo & building){
     metalRequired = building.metalRequired;
     buildingsAllowed = building.buildingsAllowed;
     buildingsMade = building.buildingsMade;
-
 }
 
 // Destructor
@@ -55,7 +53,6 @@ ostream & operator<< (ostream &outputStream, const BuildingInfo & building){
 
 	return outputStream;
 }
-
 
 bool BuildingInfo::operator==(const BuildingInfo & building){
     return  ( buildingName == building.buildingName
@@ -96,14 +93,10 @@ ArrayOfCoordinates& BuildingInfo::getArrayOfCoordinates(){
     return arrayOfCoordinates;
 }
 
-
-
-
+// 
 void BuildingInfo::addCoordinates(int row, int column){
     arrayOfCoordinates.pushBack(row, column);
 }
-
-
 
 void BuildingInfo::deleteCoordinates(int row, int column){
 
@@ -111,12 +104,9 @@ void BuildingInfo::deleteCoordinates(int row, int column){
 
 }
 
-
-
 void BuildingInfo::printCoordinates(){
     arrayOfCoordinates.print();
 }
-
 
 
 // Setters
@@ -144,5 +134,3 @@ void BuildingInfo::setBuildingsAllowed(int builAllowed){
 void BuildingInfo::setBuildingsMade(int builMade){
     buildingsMade = builMade;
 }
-
-

@@ -14,22 +14,13 @@ CellIntransitable::CellIntransitable() : Cell(){
 CellIntransitable::~CellIntransitable(){
 }
 
-
 void CellIntransitable::showCell(){
-
     cout << BGND_BLUE_19 << '|' << ' ' << '|' << END_COLOR;
-
 }
 
 void CellIntransitable::showCellInfo(){
-
-    cout << "Este casillero es un lago" << endl;
-
+    cout << TXT_ORANGE_166 << "Este casillero es un lago" << END_COLOR << endl << endl;
 }
-
-
 
 CellIntransitable::CellIntransitable(int x, int y, string identif) : Cell(x, y, identif){
-
 }
-

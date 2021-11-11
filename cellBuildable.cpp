@@ -13,7 +13,6 @@
 
 using namespace std;
 
-
 CellBuildable::CellBuildable() : Cell(){
     ptrBuilding = nullptr;
     isBuilt = false;
@@ -38,7 +37,6 @@ void CellBuildable::build(string building){
     isBuilt = true;
 }
 
-////////////////
 
 bool CellBuildable::demolish(string & demolishedBuilding){
     bool demolishStatus = false;
@@ -80,13 +78,12 @@ void CellBuildable::showCell(){
     } else{
         cout << BGND_GREEN_34 << '|' << ' ' << '|' << END_COLOR;
     }
-
 }
 
 void CellBuildable::showCellInfo(){
 
     if(ptrBuilding){
-        cout << "Este es un casillero construible y hay construido/a un/a: ";
+        cout << TXT_ORANGE_166 << "Este es un casillero construible y hay construido/a un/a: " << END_COLOR;
         if(ptrBuilding->getIdentifier() == SCHOOL_IDENTIFIER)
             cout << WORD_SCHOOL << endl;
         else if(ptrBuilding->getIdentifier() == MINE_IDENTIFIER)
@@ -100,9 +97,8 @@ void CellBuildable::showCellInfo(){
         else if(ptrBuilding->getIdentifier() == POWER_PLANT_IDENTIFIER)
             cout << WORD_POWER_PLANT << endl;
     } else{
-        cout << "Este es un casillero construible y no hay nada construido" << endl;
+        cout << TXT_ORANGE_166 << "Este es un casillero construible y no hay nada construido" << END_COLOR << endl << endl;
     }
-
 }
 
 CellBuildable::CellBuildable(int x, int y, string identif) : Cell(x, y, identif){
@@ -111,13 +107,9 @@ CellBuildable::CellBuildable(int x, int y, string identif) : Cell(x, y, identif)
 }
 
 Building CellBuildable::getBuilding(){
-    //if(ptrBuilding != nullptr)
     return *ptrBuilding;
 }
 
 bool CellBuildable::getIsBuilt(){
     return isBuilt;
 }
-
-
-

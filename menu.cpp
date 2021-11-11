@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void menu(opcion_menu_t & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap, ArrayOfCoordinates & roadsCoordinates){
+void menu(optionMenu & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap, List<CoordinatesOfBuilding> & roadsCoordinates){
     while (option != LEAVE) {
         option = UNDEFINE;
         handleMenu(option);
@@ -17,22 +17,24 @@ void menu(opcion_menu_t & option, List<Materials> & materialsChain, List<Buildin
 }
 
 
-void handleMenu(opcion_menu_t& option) {
+void handleMenu(optionMenu& option) {
     int selectedOption = 0;
     string aux;
 
     displayMenu();
     getline(cin, aux);
 
-    if (isANumber(aux) == true)
+    
+    if (isANumber(aux) == true){
         selectedOption = stoi(aux);
- 
-    if (selectedOption >= 1 && selectedOption <= 10)
-        option = (opcion_menu_t)selectedOption;
+        if (selectedOption >= 1 && selectedOption <= 10)
+            option = (optionMenu)selectedOption;
+    } else
+        option = UNDEFINE;
   
 }
 
-void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap, ArrayOfCoordinates & roadsCoordinates){
+void processOption(optionMenu& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap, List<CoordinatesOfBuilding> & roadsCoordinates){
 
     switch(selectedOption){
         case BUILD_BUILDING_BY_NAME:
@@ -53,6 +55,7 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
 
         case SHOW_MAP:
             andyMap.printMap();
+            cout << endl;
             break;
 
         case ASK_COORDINATES:
@@ -69,6 +72,7 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
         
         case RESOURCES_STORM:
             resourcesStorm(andyMap, roadsCoordinates);
+            andyMap.printMap();
             break;
 
         case SAVE_AND_LEAVE:
@@ -77,7 +81,7 @@ void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsCha
             break;
 
         default:
-            cout << ERR_WRONG_INPUT << endl;
+            cerr << TXT_DARK_RED_1 << ERR_WRONG_INPUT << END_COLOR << endl << endl;
             break;
     }
 }
@@ -87,7 +91,7 @@ void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &bu
     string building;
     Node<BuildingInfo> * ptrBuildInfoNode = nullptr;
 
-    cout << ENTER_BUILDING_TO_BUILD << endl;
+    cout << TXT_ORANGE_166 << ENTER_BUILDING_TO_BUILD << endl << END_COLOR;
     getline(cin, building);
     
     if(searchBuildingByName(buildingsInfoChain, &ptrBuildInfoNode, building) == true){
@@ -101,24 +105,22 @@ void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &bu
                                 ptrBuildInfoNode->getData().addCoordinates(row, column);
                                 ptrBuildInfoNode->getData().setBuildingsMade(ptrBuildInfoNode->getData().getBuildingsMade() + 1);
                                 updateMaterialsAmount(ptrBuildInfoNode, materialsChain);
-                                cout << BUILD_BUILDING_SUCCESS << building << endl;
+                                cout << TXT_ORANGE_166 << BUILD_BUILDING_SUCCESS << building << END_COLOR << endl;
                             }
                         }
                     }
                     else
-                        cout << ERR_CELL_WITH_BUILDING << endl;
+                        cerr << TXT_DARK_RED_1 << ERR_CELL_WITH_BUILDING << END_COLOR << endl << endl;
                 }
                 else
-                    cerr << ERR_NO_REMAINING_BUILDINGS_TO_BUILD << endl;
+                    cerr << TXT_DARK_RED_1 << ERR_NO_REMAINING_BUILDINGS_TO_BUILD << END_COLOR << endl << endl;
             } else
-                cerr << ERR_INVALID_COORDINATES << endl;
+                cerr << TXT_DARK_RED_1 <<  ERR_INVALID_COORDINATES << END_COLOR << endl << endl;
         }
     } else
-        cerr << ERR_BUILDING_NOT_FOUND << endl;
-
+        cerr << TXT_DARK_RED_1 << ERR_BUILDING_NOT_FOUND << END_COLOR<< endl << endl;
 }
 
-///////////////////
 
 void demolishBuildingByCoordinates(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap){
     int row,column;
@@ -127,7 +129,6 @@ void demolishBuildingByCoordinates(List<Materials> &materialsChain, List<Buildin
     bool buildingFoundFlag = false;
 
     askCoordinates(row, column);
-
 
     if(andyMap.demolishBuilding(row, column, buildingDemolished) == true){
         while(ptrBuildInfoNode != nullptr && buildingFoundFlag == false){
@@ -140,6 +141,7 @@ void demolishBuildingByCoordinates(List<Materials> &materialsChain, List<Buildin
             else   
                 ptrBuildInfoNode = ptrBuildInfoNode->getNext();
         }
+        cout << TXT_ORANGE_166 << DEMOLISH_BUILDING_SUCCESS << buildingDemolished << END_COLOR << endl << endl;
     }
 
 }
@@ -151,15 +153,12 @@ void showCellByCoordinates(Map & andyMap){
     askCoordinates(row, column);
 
     if(andyMap.validateCoordinates(row,column) == false){
-        cerr << ERR_INVALID_COORDINATES << endl;
+        cerr << TXT_DARK_RED_1 <<  ERR_INVALID_COORDINATES << END_COLOR << endl << endl;
         return;
     }
 
     andyMap.printCellInfo(row, column);
 }
-
-
-
 
 
 void listConstructionMaterials(List <Materials> * materialsChain){
@@ -175,7 +174,7 @@ void listConstructionMaterials(List <Materials> * materialsChain){
             printListOfMaterials(aux);
 			aux = aux->getNext();
 		}
-		cout << endl;
+		cout << endl << endl;
 	}
 }
 
@@ -191,7 +190,7 @@ void listAllBuildings(List <BuildingInfo> & buildingsInfoChain){
         aux = aux->getNext();     
     }	
 	
-    cout << endl;
+    cout << endl << endl;
 }
 
 void collectResources(List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap){
@@ -237,46 +236,54 @@ void addMaterial(List<Materials> & materialsChain, string material, int material
     }
 }
 
-
-void resourcesStorm(Map & andyMap, ArrayOfCoordinates & roadsCoordinates){
-   /* int row, column, counter;
+void resourcesStorm(Map & andyMap, List<CoordinatesOfBuilding> & roadsCoordinates){
+    int row, column, aux;
     int generatedStone, generatedMetal, generatedWood;
+    Node<CoordinatesOfBuilding> * ptrRoadsCoordinate = roadsCoordinates.getFirst();
 
-    generatedStone = rand()%(2-1+1)+1;
-    generatedWood = rand()%(1-0+1)+0;
-    generatedMetal = rand()%(4-2+1)+2;
+    generatedStone = rand()%(RANDOM_MAX_STONE_AMOUNT - RANDOM_MIN_STONE_AMOUNT + 1) + RANDOM_MIN_STONE_AMOUNT; 
+    generatedWood = rand()%(RANDOM_MAX_WOOD_AMOUNT - RANDOM_MIN_WOOD_AMOUNT + 1) + RANDOM_MIN_WOOD_AMOUNT;
+    generatedMetal = rand()%(RANDOM_MAX_METAL_AMOUNT - RANDOM_MIN_METAL_AMOUNT + 1) + RANDOM_MIN_METAL_AMOUNT;
 
-   for(int i = 0; i < roadsCoordinates.getSize(); i++){
-        row = roadsCoordinates[i].row;
-        column = roadsCoordinates[i].column;
-
-        if (((CellPassable*)(andyMap.getElement(row, column)))->getMaterial().getIdentifier().empty()){
-
-            for(int j = 0; j < generatedStone; j++){
-                ((CellPassable*)(andyMap.getElement(row, column)))->addMaterial("piedra");
-            }
-
-
-
-
-            counter++;
+    for (int i = 0; i < generatedStone; i++){
+        if(roadsCoordinates.getSize() > 0){                              //si es mayor a 0 es que todavia tengo caminos libres para asignar materiales
+            aux = rand() % (roadsCoordinates.getSize() - 1 + 1) + 1;    //esto me da un numero entre 1 y el tamaño de la lista.
+            for(int j = 1; j < aux; j++)                                // busco el nodo que está en la posicion aux de la lista
+                ptrRoadsCoordinate = ptrRoadsCoordinate->getNext();
+            row = ptrRoadsCoordinate->getData().row;
+            column = ptrRoadsCoordinate->getData().column;
+            ((CellPassable*)(andyMap.getElement(row, column)))->addMaterial(WORD_STONE);
+            roadsCoordinates.removeElement(*ptrRoadsCoordinate);
         }
+        ptrRoadsCoordinate = roadsCoordinates.getFirst();
+    }
 
-        
-    }*/
+    for (int i = 0; i < generatedMetal; i++){
+        if(roadsCoordinates.getSize() > 0){                              //si es mayor a 0 es que todavia tengo caminos libres para asignar materiales
+            aux = rand() % (roadsCoordinates.getSize() - 1 + 1) + 1;    //esto me da un numero entre 1 y el tamaño de la lista.
+            for(int j = 1; j < aux; j++)                                // busco el nodo que está en la posicion aux de la lista
+                ptrRoadsCoordinate = ptrRoadsCoordinate->getNext();
+            row = ptrRoadsCoordinate->getData().row;
+            column = ptrRoadsCoordinate->getData().column;
+            ((CellPassable*)(andyMap.getElement(row, column)))->addMaterial(WORD_METAL);
+            roadsCoordinates.removeElement(*ptrRoadsCoordinate);
+        }
+        ptrRoadsCoordinate = roadsCoordinates.getFirst();
+    }
 
+    for (int i = 0; i < generatedWood; i++){
+        if(roadsCoordinates.getSize() > 0){                              //si es mayor a 0 es que todavia tengo caminos libres para asignar materiales
+            aux = rand() % (roadsCoordinates.getSize() - 1 + 1) + 1;    //esto me da un numero entre 1 y el tamaño de la lista.
+            for(int j = 1; j < aux; j++)                                // busco el nodo que está en la posicion aux de la lista
+                ptrRoadsCoordinate = ptrRoadsCoordinate->getNext();
+            row = ptrRoadsCoordinate->getData().row;
+            column = ptrRoadsCoordinate->getData().column;
+            ((CellPassable*)(andyMap.getElement(row, column)))->addMaterial(WORD_WOOD);
+            roadsCoordinates.removeElement(*ptrRoadsCoordinate);
+        }
+        ptrRoadsCoordinate = roadsCoordinates.getFirst();
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -303,7 +310,7 @@ void saveMaterials(List<Materials> & materialsChain){
  		file.close();
     }
 	else
-		cerr << ERR_CANT_OPEN_FILE << endl;
+		cerr << TXT_DARK_RED_1 << ERR_CANT_OPEN_FILE << END_COLOR << endl << endl;
 }
 
 void saveBuildingsLocation(List<BuildingInfo> & buildingsInfoChain){
@@ -329,7 +336,7 @@ void saveBuildingsLocation(List<BuildingInfo> & buildingsInfoChain){
  		file.close();
     }
 	else
-		cerr << ERR_CANT_OPEN_FILE << endl;
+		cerr << TXT_DARK_RED_1 << ERR_CANT_OPEN_FILE << END_COLOR << endl << endl;
 }
 
 
@@ -343,8 +350,17 @@ void printAllBuildings(Node<BuildingInfo> * aux){
     << setw(width) << (aux->getData()).getWoodRequired()  << setw(1) << "|" 
     << setw(width) << (aux->getData()).getMetalRequired() << setw(1) << "|" 
     << setw(2*width) << (aux->getData()).getBuildingsMade() << setw(1) << "|" 
-    << setw(width) <<(aux->getData()).getBuildingsAllowed() - (aux->getData()).getBuildingsMade()
-    << setw(1) << endl;
+    << setw(3*width + 1) <<(aux->getData()).getBuildingsAllowed() - (aux->getData()).getBuildingsMade() << "|" << setw(10*width);
+
+    if((aux->getData()).getBuildingName() == WORD_MINE)
+        cout << WORD_STONE << setw(1) << endl ;
+    else if ((aux->getData()).getBuildingName() == WORD_SAWMILL)
+        cout << WORD_WOOD << setw(1) << endl ;
+    else if ((aux->getData()).getBuildingName() == WORD_FACTORY)
+        cout << WORD_METAL << setw(1) << endl ;
+    else
+        cout << "No entrega" << setw(1) << endl;
+
 }
 
 
@@ -365,12 +381,9 @@ void listBuildingsMade(List <BuildingInfo> & buildingsInfoChain){
 }
 
 
-
-
-
 void displayMenu(){
 
-    cout << TAB << BGND_DARK_AQUA_24 << TAB << TAB << TAB << TAB << " MENU" << TAB << TAB << TAB << TAB << TAB << TAB << END_COLOR << endl;
+    cout << TAB << BGND_DARK_AQUA_24 << TAB << TAB << TAB << TAB << TAB << " MENU" << TAB << TAB << TAB << TAB << TAB << END_COLOR << endl;
     cout << TAB << BGND_DARK_AQUA_24 << "_____________________________________________" << END_COLOR << endl;
     cout << TAB << BGND_DARK_AQUA_24 << "|  1. Construir edificio por nombre.        |" << END_COLOR << endl;
     cout << TAB << BGND_DARK_AQUA_24 << "|  2. Listar los edificios construidos      |" << END_COLOR << endl;
@@ -427,7 +440,8 @@ void printHeaderAllBuildings(){
     << setw(width) << "Madera"                              << setw(1) << "|"
     << setw(width) << "Metal"                               << setw(1) << "|"
     << setw(2*width) << "Cantidad construida"               << setw(1) << "|"
-    << setw(width) << "Cantidad disponible para construir"  << setw(1) 
+    << setw(3*width + 1) << "Cantidad disponible para construir"  << setw(1) << "|"
+    << setw(width) << "Material que entrega"                << setw(1) 
     << endl;
 }
 
@@ -451,5 +465,6 @@ void printListOfBuildingsMade(Node<BuildingInfo> * aux){
     << setw(2*width) << (aux->getData()).getBuildingsMade() << setw(1) << "|";
     
     (aux->getData()).printCoordinates();
+
     cout << endl;  
 }

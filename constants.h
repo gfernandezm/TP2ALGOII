@@ -12,8 +12,6 @@ static const string WORD_SAWMILL = "aserradero";
 static const string WORD_POWER_PLANT = "planta electrica";
 static const string WORD_OBELISK = "obelisco";
 
-
-
 static const string STONE_IDENTIFIER = "S";
 static const string WOOD_IDENTIFIER = "W";
 static const string METAL_IDENTIFIER = "I";
@@ -31,6 +29,12 @@ static const string NO_IDENTIFIER = "Identificador no definido";
 static const int MATERIAL_PRODUCED_MINE = 15;
 static const int MATERIAL_PRODUCED_SAWMILL = 25;
 static const int MATERIAL_PRODUCED_FACTORY = 40;
+static const int RANDOM_MIN_STONE_AMOUNT = 1;
+static const int RANDOM_MAX_STONE_AMOUNT = 2;
+static const int RANDOM_MIN_WOOD_AMOUNT = 0;
+static const int RANDOM_MAX_WOOD_AMOUNT = 1;
+static const int RANDOM_MIN_METAL_AMOUNT = 2;
+static const int RANDOM_MAX_METAL_AMOUNT = 4;
 
 static const int CONFIRMATION_BUILD_YES = 1;
 static const int INIT_SIZE = 10;
@@ -48,6 +52,8 @@ static const string ERR_NO_REMAINING_BUILDINGS_TO_DEMOLISH = "No quedan edificio
 static const string ERR_INVALID_COORDINATES = "Las coordenadas no son validas";
 static const string ERR_INVALID_CELL = "No se pudo construir. Se esta intentando construir sobre una celda no construible";
 static const string ERR_CELL_WITH_BUILDING = "No se pudo construir. Se esta intentando construir sobre una celda que ya tiene un edificio construido";
+static const string ERR_NO_BUILDING_TO_DEMOLISH = "No hay ningun edificio construido previamente para demoler";
+static const string ERR_NOT_BUILDABLE_CELL = "El casillero ingresado no puede contener un edificio";
 
 static const string CONFIRMATION_TO_BUILD = "¿Esta seguro que desea construir el edificio?";
 static const string ENTER_BUILDING_TO_BUILD = "Ingrese el nombre del edificio que desea construir: ";

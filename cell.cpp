@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 Cell::Cell(){
     coordinateX = 0; 
     coordinateY = 0; 
@@ -23,7 +22,6 @@ void Cell::setCoordinates(int x, int y){
     coordinateX = x;
     coordinateY = y;
 }
-
 
 string Cell::getCellIdentifier()const{
     return cellIdentifier;

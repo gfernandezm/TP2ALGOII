@@ -54,7 +54,7 @@ void loadBuildingsData(List <BuildingInfo> & buildingsInfoChain){
  		file.close();
     }
 	else
-		cerr << ERR_CANT_OPEN_FILE << endl;     
+		cerr << TXT_DARK_RED_1 << ERR_CANT_OPEN_FILE << END_COLOR << endl << endl;     
 }
 
 
@@ -78,17 +78,17 @@ void loadMaterials(List <Materials> & materialsChain) {
         file.close();
     }
     else
-        cerr << ERR_CANT_OPEN_FILE << endl;
+        cerr << TXT_DARK_RED_1 <<  ERR_CANT_OPEN_FILE << END_COLOR << endl << endl;
 }
 
 
-void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain, ArrayOfCoordinates & roadsCoordinates){
+void loadMap(Map &andyMap, List <BuildingInfo> & buildingInfoChain, List<CoordinatesOfBuilding> & roadsCoordinates){
     createMap(andyMap, roadsCoordinates);
     loadMapFromFile(andyMap, buildingInfoChain);
 }
 
 
-void createMap(Map & andyMap, ArrayOfCoordinates & roadsCoordinates){
+void createMap(Map & andyMap, List<CoordinatesOfBuilding> & roadsCoordinates){
     fstream file;
     string str;
     int rows;
@@ -106,16 +106,22 @@ void createMap(Map & andyMap, ArrayOfCoordinates & roadsCoordinates){
                 file >> str;
                 andyMap.addElement(i, j, str);
 
-                if(andyMap.getElement(i, j)->getCellIdentifier() == ROAD_IDENTIFIER)
-                    roadsCoordinates.pushBack(i, j);
-                
+                if(andyMap.getElement(i, j)->getCellIdentifier() == ROAD_IDENTIFIER){
+                    CoordinatesOfBuilding coordinatesOfRoad;
+                    coordinatesOfRoad.row = i;
+                    coordinatesOfRoad.column = j;
+                    Node<CoordinatesOfBuilding> coordinatesOfRoadNode(coordinatesOfRoad);
+                    roadsCoordinates.addNodeEnd(coordinatesOfRoadNode);
+                    //roadsCoordinates.pushBack(i, j); esto era si lo haciamos con un arreglo en vez de una lista
+                }  
             }
         }
         file.close();
     }
     else{
-        cerr << ERR_CANT_OPEN_FILE << endl;
+        cerr << TXT_DARK_RED_1 << ERR_CANT_OPEN_FILE << END_COLOR << endl << endl;
     }
+
 }
 
 
@@ -147,7 +153,7 @@ void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain){
             if(andyMap.buildBuilding(rows, columns, str) == true)
                 loadBuildingsMadeFromFile(str, buildingInfoChain, rows, columns);    
             else{
-                cout << ERR_INCORRECT_FILE << endl;
+                cerr << TXT_DARK_RED_1  << ERR_INCORRECT_FILE << END_COLOR << endl << endl;
                 exit(1);
             }
 
@@ -156,7 +162,7 @@ void loadMapFromFile(Map & andyMap,List <BuildingInfo> & buildingInfoChain){
         file.close();
     }
     else
-        cerr << ERR_CANT_OPEN_FILE << endl;
+        cerr << TXT_DARK_RED_1 << ERR_CANT_OPEN_FILE << END_COLOR << endl << endl;
    
 }
 
@@ -183,27 +189,31 @@ void loadBuildingsMadeFromFile(string str, List <BuildingInfo> & buildingInfoCha
 void askCoordinates(int & row, int & column){
     string aux;
     
-    cout << INSER_COORDINATES << endl;
-    cout << INSERT_ROW << endl;
+    cout << TXT_ORANGE_166 <<  INSER_COORDINATES << END_COLOR << endl << endl;
+    cout << TXT_ORANGE_166 << INSERT_ROW << END_COLOR << endl << endl;
     
     getline(cin, aux);
     if (isANumber(aux) == true)
         row = stoi(aux);
     
-    cout << INSERT_COLUMN << endl;
+    cout << TXT_ORANGE_166 << INSERT_COLUMN << END_COLOR << endl << endl;
     getline(cin, aux);
     if (isANumber(aux) == true)
         column = stoi(aux);
 }
 
-bool isANumber(string cadena)
-{
+bool isANumber(string cadena){
+    bool status = true;
+
+    if (cadena.length() == 0)
+        status = false;
+
     for (unsigned int i = 0; i < cadena.length(); i++){
         if (!isdigit(cadena[i]))
-            return false;
+            status = false;
     }
 
-    return true;
+    return status;
 }
 
 bool searchBuildingByName(List<BuildingInfo> & buildingsInfoChain, Node<BuildingInfo> ** outPtrBuildInfoNode, string building){
@@ -228,7 +238,7 @@ bool checkBuildingRequirements(Node<BuildingInfo> * ptrBuildInfoNode, List<Mater
 
         if((ptrMaterialsNode->getData()).getMaterial() == WORD_STONE){
             if((ptrMaterialsNode->getData()).getAmount() <= (ptrBuildInfoNode->getData()).getStoneRequired()){
-                cout << TXT_DARK_RED_1 << ERR_NOT_ENOUGH_STONE << END_COLOR << endl;
+                cerr << TXT_DARK_RED_1 << ERR_NOT_ENOUGH_STONE << END_COLOR << endl << endl;
                 status = false;
             }
             stoneChecked = true;
@@ -236,7 +246,7 @@ bool checkBuildingRequirements(Node<BuildingInfo> * ptrBuildInfoNode, List<Mater
 
         if((ptrMaterialsNode->getData()).getMaterial() == WORD_METAL){
             if((ptrMaterialsNode->getData()).getAmount() <= (ptrBuildInfoNode->getData()).getMetalRequired()){
-                cout << TXT_DARK_RED_1 << ERR_NOT_ENOUGH_METAL << END_COLOR << endl;
+                cerr << TXT_DARK_RED_1 << ERR_NOT_ENOUGH_METAL << END_COLOR << endl << endl;
                 status = false;
             }
             metalChecked = true;
@@ -244,7 +254,7 @@ bool checkBuildingRequirements(Node<BuildingInfo> * ptrBuildInfoNode, List<Mater
 
         if((ptrMaterialsNode->getData()).getMaterial() == WORD_WOOD){
             if((ptrMaterialsNode->getData()).getAmount() <= (ptrBuildInfoNode->getData()).getWoodRequired()){
-                cout << TXT_DARK_RED_1 << ERR_NOT_ENOUGH_WOOD << END_COLOR <<endl;
+                cerr << TXT_DARK_RED_1 << ERR_NOT_ENOUGH_WOOD << END_COLOR <<endl << endl;
                 status = false;
             }
             woodChecked = true;
@@ -310,9 +320,6 @@ void updateMaterialsAmountDemolish(Node<BuildingInfo> * ptrBuildInfoNode, List<M
 }
 
 
-
-
-
 int ConfirmationToBuild(){
     string aux;
     int selectedOption;
@@ -322,7 +329,7 @@ int ConfirmationToBuild(){
     if (isANumber(aux) == true)
         return selectedOption = stoi(aux);
     else{
-        cerr << ERR_WRONG_INPUT << endl;
+        cerr << TXT_DARK_RED_1 << ERR_WRONG_INPUT << END_COLOR << endl << endl;
         return -1;
     }
 

@@ -10,7 +10,13 @@ private:
 
 
 public:
+
+    // PRE: -
+    // POST: Este metodo llama al constructor de la clase abstracta building y setea el identificador correspondiente a la clase hija.
     Mine();
+
+    // PRE: - 
+    // POST: Este metodo destruye clase Mine.
     ~Mine();
 };
 

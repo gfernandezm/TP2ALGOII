@@ -41,27 +41,28 @@ typedef enum {
 	SAVE_AND_LEAVE = 10,
 	LEAVE = 11
 
-} opcion_menu_t;
+} optionMenu;
 
 
-void menu(opcion_menu_t & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap, ArrayOfCoordinates & roadsCoordinates);
+void menu(optionMenu & option, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap, List<CoordinatesOfBuilding> & roadsCoordinates);
 
 // PRE: Las listas recibidas deben estar creadas, aunque estén vacías.
 // POST: Se llaman a las funciones contempladas en las opciones del 1 al 6 si el usuario ingresa esas opciones.
 // Caso contrario, se indica que la opción ingresada es incorrecta y se finaliza la función.
-void handleMenu(/*List <Building> * buildings_chain, List <Materials>* materialsChain, */opcion_menu_t& option);
+
+// PRE: -
+// POST: Esta funcion devuelve por referencia la opcion elegida.
+void handleMenu(optionMenu& option);
 
 // PRE: -
 // POST: Se imprime el menú del programa.
 void displayMenu();
 
-//bool validateOption(int selectedOption);
+// PRE: -
+// POST: Esta funcion procesa la opcion ingresada y dependiendo de cual sea, llama a la funcion pertinente.
+void processOption(optionMenu& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap, List<CoordinatesOfBuilding> & roadsCoordinates);
 
-void processOption(opcion_menu_t& selectedOption, List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map & andyMap, ArrayOfCoordinates & roadsCoordinates);
-
-
-
-// PRE: La lista recibida debe estar creada, aunque esté vacía.
+// PRE: -
 // POST: Imprime por consola UNICAMENTE los materiales de construccion con sus respectivas cantidades.
 void listConstructionMaterials(List <Materials> * materialsChain);
 
@@ -80,29 +81,83 @@ void printHeaderListOfMaterials();
 // POST: Se imprime el material de construcción con su respectiva cantidad.
 void printListOfMaterials(Node<Materials> * aux);
 
-
+//PRE: -
+//POST: Esta funcion muestra que hay en las coordenadas que ingresa el usuario.
 void showCellByCoordinates(Map & andyMap);
+
+//PRE: -
+//POST: Esta funcion construye un edificio en las coordenadas del mapa que le ingresa el usuario a partir del nombre del edificio que también ingresa el usuario. 
 void buildBuildingByName(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap);
+
+//PRE: -
+//POST: Esta funcion destruye un edificio del mapa a partir de las coordenadas que le ingresa el usuario.
 void demolishBuildingByCoordinates(List<Materials> &materialsChain, List<BuildingInfo> &buildingsInfoChain, Map &andyMap); ////
 
+//PRE: - 
+//POST: Esta funcion lista todos los edificios indicando para cada uno de ellos: cuantas unidades de cada material se requieren para construir uno, 
+// cuantos fueron construidos hasta el momento, cuantos más puedo construir sin superar el máximo permitido y si me brinda algún tipo de material.
 void listAllBuildings(List <BuildingInfo> & buildingsInfoChain);
+
+//PRE:
+//POST: Esta funcion lista todos los edificios construidos, indicando cuantos hay construidos de cada tipo y las coordenadas donde se encuentran.
 void listBuildingsMade(List <BuildingInfo> & buildingsInfoChain);
 
+//PRE: -
+// POST: Esta funcion imprime los todos los edificios, cuanta madera, piedra y metal se necesita para construirlos,
+// cuantos hay construidos, cuanta es la cantidad disponible para construir y el material que entrega.
 void printAllBuildings(Node<BuildingInfo> * aux);
+
+// PRE: El nodo recibido debe estar creado, aunque esté vacío.
+// POST: Se imprime el nombre del edificio, la cantidad construida y las coordenadas.
 void printListOfBuildingsMade(Node<BuildingInfo> * aux);
 
+//PRE: - 
+//POST: Esta funcion recolecta los materiales que brindan todos los edificios construidos.
 void collectResources(List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain, Map &andyMap);
+
+//PRE: -
+//POST: Para cada uno de los edificios del mapa, esta funcion se fija que material brinda y cuanto e invoca a addMaterial para agregarlos a la lista de materiales.
 void addResourcesToMaterialsChain(List<Materials> & materialsChain, Node<BuildingInfo> * ptrBuildInfoNode, Map & andyMap);
+
+//PRE: -
+//POST: Esta funcion agrega los materiales que generan los edificios que estan construidos en el mapa a la lista de materiales.
 void addMaterial(List<Materials> & materialsChain, string material, int materialAmount);
-void resourcesStorm(Map & andyMap, ArrayOfCoordinates & roadsCoordinates);
+
+//PRE: - 
+//POST: Esta funcíon genera una lluvia de materiales en el mapa.
+void resourcesStorm(Map & andyMap, List<CoordinatesOfBuilding> & roadsCoordinates);
+
+//PRE: - 
+//POST: Esta funcion sobreescribe los archivos txt con la informacion contenida en ambas listas.
 void saveAndQuit(List<Materials> & materialsChain, List<BuildingInfo> & buildingsInfoChain);
+
+//PRE: - 
+//POST: Esta funcion sobreescribe materiales.txt con la informacion contenida en la lista de materiales.
 void saveMaterials(List<Materials> & materialsChain);
+
+//PRE: - 
+//POST: Esta funcion sobreescribe ubicaciones.txt con la informacion contenida en la lista de edificios.
 void saveBuildingsLocation(List<BuildingInfo> & buildingsInfoChain);
 
+// PRE: -
+// POST: Se imprime el título de si se desea contruir si o no.
 void printConfirmationToBuild();
+
+// PRE: -
+// POST: Se imprime el título "Listado de edificios construidos".
 void printTitleAllBuildings();
+
+// PRE: -
+// POST: Se imprimen los encabezados "Edificio", "Piedra", "Madera", "Metal".
+// "Cantidad construida", "Cantidad disponible para construir" y "Material que entrega".
 void printHeaderAllBuildings();
+
+// PRE: -
+// POST: Se imprime el título "Listado de todos los edificios".
 void printTitleBuildingsMade();
+
+// PRE: -
+// POST: Se imprimen los encabezados "Edificio", "Cantidad construida" y "Coordenadas".
 void printHeaderBuildingsMade();
 
 

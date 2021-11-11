@@ -15,18 +15,18 @@
 using namespace std;
 
 int main(){
-    opcion_menu_t option = UNDEFINE;
+    optionMenu option = UNDEFINE;
     List<BuildingInfo> buildingsInfoChain;
     List<Materials> materialsChain;
     Map andyMap;
-    ArrayOfCoordinates roadsCoordinates;
+    List<CoordinatesOfBuilding> roadsCoordinates;
 
     system (CLR_SCREEN);
 
     loadBuildingsData(buildingsInfoChain);
     loadMaterials(materialsChain);
     loadMap(andyMap, buildingsInfoChain, roadsCoordinates);
-        
+    
     menu(option, materialsChain, buildingsInfoChain, andyMap, roadsCoordinates);
 
     return 0;

@@ -13,6 +13,5 @@ Factory::Factory(){
     generatedMaterialAmount = MATERIAL_PRODUCED_FACTORY;
 }
 
-
 Factory::~Factory(){
 }

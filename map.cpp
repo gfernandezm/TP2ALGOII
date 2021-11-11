@@ -7,6 +7,7 @@
 #include "cellIntransitable.h"
 #include "constants.h"
 #include "school.h"
+#include "colors.h"
 
 using namespace std;
 
@@ -40,7 +41,6 @@ void Map::askCellMatrixMemory(int rows, int columns){
 
 }
 
-
 Map::CellPtr Map::getElement(int x, int y){
 
     if(x >= rows || y >= columns || x < 0 || y < 0)
@@ -49,7 +49,6 @@ Map::CellPtr Map::getElement(int x, int y){
     return cellPtrMatrix[x][y];
 
 }
-
 
 void Map::addElement(int x, int y, string data){
 
@@ -65,13 +64,12 @@ void Map::addElement(int x, int y, string data){
     else if(data == ROAD_IDENTIFIER){
         cellPtrMatrix[x][y] = new CellPassable(x, y, data);
     }
-
 }
 
 bool Map::buildBuilding(int x, int y, string data){
     bool status;
     if(x >= rows || y >= columns || x < 0 || y < 0){
-        cout << ERR_INVALID_COORDINATES << endl;
+        cerr << TXT_DARK_RED_1 << ERR_INVALID_COORDINATES << END_COLOR << endl << endl;
         status = false;
     }
     else{
@@ -80,20 +78,18 @@ bool Map::buildBuilding(int x, int y, string data){
             status = true;
         }
         else{
-            cout << ERR_INVALID_CELL << endl;
+            cerr << TXT_DARK_RED_1 << ERR_INVALID_CELL << END_COLOR << endl << endl;
             status = false;
         }
     }
     return status;
 }
 
-///////////////////////////////
-
 bool Map::demolishBuilding(int x, int y, string & demolishedBuilding){
     bool status;
 
     if(x >= rows || y >= columns || x < 0 || y < 0){
-        cout << ERR_INVALID_COORDINATES << endl;
+        cerr << TXT_DARK_RED_1 << ERR_INVALID_COORDINATES << END_COLOR << endl << endl;
         status = false;
     }
     else{
@@ -103,11 +99,11 @@ bool Map::demolishBuilding(int x, int y, string & demolishedBuilding){
             } 
             else{
                 status = false;
-                cout << "No hay ningun edificio construido previamente para demoler" << endl;
+                cerr << TXT_DARK_RED_1 << ERR_NO_BUILDING_TO_DEMOLISH << END_COLOR << endl << endl;
             } 
         }
         else{
-            cout << "Esta celda no es construible" << endl;
+            cerr << TXT_DARK_RED_1 << ERR_NOT_BUILDABLE_CELL << END_COLOR << endl << endl;
             status = false;
         }
     }
@@ -124,9 +120,7 @@ void Map::printMap(){
 }
 
 void Map::printCellInfo(int row, int column){
-    
     cellPtrMatrix[row][column]->showCellInfo();
-    
 }
 
 bool Map::validateCoordinates(int row, int column){
